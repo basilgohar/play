@@ -1,8 +1,6 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once '../config.inc.php';
 
 define('FILE_NAME_MALE', 'dist.male.first');
 define('FILE_NAME_FEMALE', 'dist.female.first');
@@ -13,14 +11,7 @@ $types = array('male' => FILE_NAME_MALE, 'female' => FILE_NAME_FEMALE, 'last' =>
 require_once 'Zend/Db.php';
 require_once 'Zend/Db/Table.php';
 
-$params = array(
-	'host' => 'localhost',
-	'username' => 'abu_hurayrah',
-	'password' => 'regnis',
-	'dbname' => 'abu_hurayrah'
-);
-
-$db = Zend_Db::factory('PDO_MYSQL', $params);
+$db = Zend_Db::factory('PDO_MYSQL', $CFG['db']);
 Zend_Db_Table::setDefaultAdapter($db);
 
 class Name extends Zend_Db_Table {};
@@ -39,10 +30,7 @@ foreach ($types as $type => $filename) {
 		$values = explode(' ', $normalized_line);
 		//print_r($values);
 		$name = $name_table->fetchNew();
-		$name->value = $values[0];
-		$name->frequency = $values[1];
-		$name->cumulativeFrequency = $values[2];
-		$name->rank = $values[3];
+		$name->value = $values[0];		
 		$name->type = $type;
 		$name->save();
 	}

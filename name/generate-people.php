@@ -2,13 +2,13 @@
 
 $start_time = microtime(true);
 
+require_once '../config.inc.php';
+
 set_time_limit(0);
 
-define('POPULATION', 100000);
+define('POPULATION', 1000000);
 
-require_once 'config.php';
-
-$names__male = array();
+$names_male = array();
 $names_female = array();
 $names_last = array();
 
@@ -58,12 +58,7 @@ for ($i = 0; $i < POPULATION; $i++) {
 	$person = $person_table->fetchNew();
 	$person->nameFirst = $first_name;
 	$person->nameLast = $last_name;
-	$person->gender = $gender;
-	$now = time();
-	$date_birth = mt_rand(0, $now);
-	$date_death = mt_rand($now, mt_getrandmax());
-	$person->dateBirth = date('Y-m-d', $date_birth);
-	$person->dateDeath = date('Y-m-d', $date_death);
+	$person->gender = $gender;	
 	$person->save();
 }
 
