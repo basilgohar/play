@@ -55,4 +55,3 @@ $body->appendChild($block2 = new ooxml_div('something'));
 $block2->appendChild(ooxml_list_r($list_items_r));
 
 echo $doc->saveXML();
-
