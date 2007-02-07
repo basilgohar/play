@@ -3,10 +3,13 @@
 set_time_limit(0);
 
 //define('COUNT', pow(26, 6) + pow(26, 5) + pow(26, 4) + pow(26, 3) + pow(26, 2) + pow(26, 1));
-define('COUNT', 10000000);
+define('COUNT', 1000000);
 define('INCREMENT_DIVISOR', 80);
 define('INCREMENT_UPDATE', COUNT/INCREMENT_DIVISOR);
-define('CONNECTOR', 'file');
+define('CONNECTOR', 'pdo');
+if (file_exists('/dev/shm')) {
+	define('PATH', '/dev/shm');
+}
 define('FILENAME', 'something');
 
 $start_time = microtime(true);
@@ -28,8 +31,12 @@ switch (CONNECTOR) {
        mysql_query('TRUNCATE TABLE `md5`');
        break;
    case 'file':
-       $fp = fopen(FILENAME, 'w');
-       break;
+	if (defined('PATH')) {
+		$fp = fopen(PATH . PATH_SEPARATOR . FILENAME, 'w');
+	} else {
+		$fp = fopen(FILENAME, 'w');
+	}
+	break;
 }
 
 $string = 'a';
