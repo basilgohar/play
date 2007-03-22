@@ -6,7 +6,7 @@ class PersonTable extends Zend_Db_Table
 {
     protected $_name = 'person_view';
     
-    public function __construct($config = null)
+    public function __construct($config)
     {
         parent::__construct($config);
     }
