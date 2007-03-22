@@ -12,8 +12,8 @@ $names_male = array();
 $names_female = array();
 $names_last = array();
 
-class Name extends Zend_Db_Table {};
-class Person extends Zend_Db_Table {};
+class name extends Zend_Db_Table {};
+class person extends Zend_Db_Table {};
 
 $name_table = new Name();
 $person_table = new Person();
@@ -56,11 +56,12 @@ for ($i = 0; $i < POPULATION; $i++) {
 	$last_name = mt_rand(0, $names_last_count - 1);
 
 	$person = $person_table->fetchNew();
-	$person->nameFirst = $first_name;
-	$person->nameLast = $last_name;
+	$person->name_first = $first_name;
+	$person->name_last = $last_name;
 	$person->gender = $gender;	
 	$person->save();
 }
 
 $total_time = microtime(true) - $start_time;
 echo 'Processed ' . $i . ' records in  ' . $total_time . ' seconds (' . $i/$total_time . ' records per second)' . "\n";
+
