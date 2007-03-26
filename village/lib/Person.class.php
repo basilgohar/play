@@ -9,9 +9,18 @@ class Person extends Zend_Db_Table_Row
         parent::__construct($config);        
     }
     
+    public function getFullName()
+    {
+        $name_table = new NameTable();
+        $name_first_result = $name_table->fetchRow("`id` = '$this->name_first_id'");
+        $name_last_result = $name_table->fetchRow("`id` = '$this->name_last_id'");
+        
+        return $name_first_result->value . ' ' . $name_last_result->value;
+    }
+    
     public function __toString()
     {
-        return $this->nameFirst . ' ' . $this->nameLast . ' (' . $this->id . ')';
+        return $this->getFullName() . ' (' . $this->id . ')';
     }
     
     public function isEligableForMarriage()
@@ -58,15 +67,15 @@ class Person extends Zend_Db_Table_Row
         $marriage = $marriage_table->fetchNew();
         
         if ($this->gender == 'male') {
-            $marriage->husbandId = $this->id;
-            $marriage->wifeId = $spouse->id;
+            $marriage->husband_id = $this->id;
+            $marriage->wife_id = $spouse->id;
         } else {
-            $marriage->wifeId = $this->id;
-            $marriage->husbandId = $spouse->id;
+            $marriage->wife_id = $this->id;
+            $marriage->husband_id = $spouse->id;
         }
         
-        $marriage->dateMarried = date('Y-m-d');
-        $marriage->dateDivorced = '';
+        $marriage->date_married = date('Y-m-d');
+        $marriage->date_divorced = '';
         
         return $marriage->save();
     }

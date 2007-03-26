@@ -2,12 +2,8 @@
 
 require_once '../config.inc.php';
 
+require_once 'lib/tables.php';
 require_once 'lib/Person.class.php';
-require_once 'lib/PersonRowset.class.php';
-require_once 'lib/PersonTable.class.php';
-require_once 'lib/MarriageTable.class.php';
-require_once 'lib/AncestryTable.class.php';
-require_once 'lib/NameTable.class.php';
 
 $sql = array();
 $sql[] = "CREATE TABLE IF NOT EXISTS `person` (

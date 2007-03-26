@@ -6,7 +6,7 @@ require_once '../config.inc.php';
 
 set_time_limit(0);
 
-define('POPULATION', 10000);
+define('POPULATION', 1000000);
 
 $names_male = array();
 $names_female = array();
@@ -72,4 +72,3 @@ for ($i = 0; $i < POPULATION; $i++) {
 
 $total_time = microtime(true) - $start_time;
 echo 'Processed ' . $i . ' records in  ' . $total_time . ' seconds (' . $i/$total_time . ' records per second)' . "\n";
-
