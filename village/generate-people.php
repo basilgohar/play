@@ -6,7 +6,7 @@ require_once '../config.inc.php';
 
 set_time_limit(0);
 
-define('POPULATION', 1000000);
+define('POPULATION', 25000);
 
 $names_male = array();
 $names_female = array();

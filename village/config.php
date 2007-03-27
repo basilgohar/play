@@ -30,3 +30,6 @@ $sql[] = "CREATE TABLE IF NOT EXISTS `marriage` (
 `date_divorced` DATETIME NOT NULL
 ) ENGINE = MYISAM ;";
 
+foreach ($sql as $one_query) {
+    $db->query($one_query);
+}
