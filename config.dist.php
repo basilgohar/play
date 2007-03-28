@@ -4,9 +4,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+$start_time = microtime(true);
+
 define('ZF_PATH', '/usr/share/zend-framework/library');
 define('VILLAGE_POPULATION', 1000);
-define('VILLAGE_DISPLAY_DEFAULT', 1000);
+define('VILLAGE_DISPLAY_LIMIT', 50);
+define('VILLAGE_CONTROLLER_PATH', '/home/basil.gohar/public_html/play/village/controllers');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . ZF_PATH);
 

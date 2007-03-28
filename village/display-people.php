@@ -34,7 +34,7 @@ if (! isset($_GET['id'])) {
     foreach ($table_headers as $table_header) {
         $first_row->appendChild($doc->createElement('th', $table_header));
     }
-    foreach ($person_table->fetchAll(null, array('name_last', 'name_first'), VILLAGE_DISPLAY_DEFAULT) as $person) {
+    foreach ($person_table->fetchAll(null, array('name_last', 'name_first'), VILLAGE_DISPLAY_LIMIT) as $person) {
         $table->appendChild($tr = $doc->createElement('tr'));
         $tr->appendChild($td = $doc->createElement('td'));
         $td->appendChild($a = $doc->createElement('a', $person->__toString()));
@@ -71,7 +71,7 @@ if (! isset($_GET['id'])) {
 
     $body->appendChild($p = $doc->createElement('p'));
     $p->appendChild($a = $doc->createElement('a', 'Return to people list'));
-    $a->setAttribute('href', 'display-people.php');
+    $a->setAttribute('href', 'index.php');
 }
 
 $total_time = microtime(true) - $start_time;
