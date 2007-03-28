@@ -4,7 +4,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-set_include_path(get_include_path() . PATH_SEPARATOR . '/usr/share/zend-framework/library');
+define('ZF_PATH', '/usr/share/zend-framework/library');
+define('VILLAGE_POPULATION', 1000);
+define('VILLAGE_DISPLAY_DEFAULT', 1000);
+
+set_include_path(get_include_path() . PATH_SEPARATOR . ZF_PATH);
 
 $CFG = array();
 

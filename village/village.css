@@ -1,0 +1,40 @@
+body {
+	font-family: Verdana, Helvetica, Arial, sans;
+	font-size: small;
+	color: darkslategrey;
+}
+
+table {
+	border: solid black 1px;
+}
+
+caption {
+	font-style: italic;
+	font-size: large;
+	padding: 2px;
+	color: darkslategrey;
+}
+
+th {
+	border: solid black 1px;
+	padding: 2px;
+	background: lightslategrey;
+}
+
+td {
+	border: solid black 1px;
+	padding: 2px;
+	background: lightsteelblue;
+}
+
+a {
+	color: slategrey;
+}
+
+a:hover {
+	color: darkslategrey;
+}
+
+p {
+	text-indent: 4pt;
+}

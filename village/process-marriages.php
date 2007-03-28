@@ -9,7 +9,11 @@ require_once 'config.php';
 $person_table = new PersonTable();
 
 $people = $person_table->fetchAll();
-
+/*
+$people = $person_table->fetchPeopleEligableForMarriage();
+print_r($people);
+exit;
+*/
 $persons = array();
 
 foreach ($people as $person) {

@@ -4,18 +4,9 @@ require_once 'Zend/Db/Table/Row.php';
 
 class Person extends Zend_Db_Table_Row
 {
-    public function __construct($config = array())
-    {
-        parent::__construct($config);        
-    }
-    
     public function getFullName()
     {
-        $name_table = new NameTable();
-        $name_first_result = $name_table->fetchRow("`id` = '$this->name_first_id'");
-        $name_last_result = $name_table->fetchRow("`id` = '$this->name_last_id'");
-        
-        return $name_first_result->value . ' ' . $name_last_result->value;
+        return $this->name_first . ' ' . $this->name_last;
     }
     
     public function __toString()
@@ -32,7 +23,7 @@ class Person extends Zend_Db_Table_Row
             case 'male':
                 $marriage_table = new MarriageTable();
                 $result = $marriage_table->fetchAll("`husband_id` = '$this->id'");
-                return ($result->count() < 5);
+                return ($result->count() < 4);
                 break;
             case 'female':
                 return ! $this->isMarried();
@@ -94,6 +85,11 @@ class Person extends Zend_Db_Table_Row
         
         return ($result->count() > 0);
     }
+    
+    public function hasChildren()
+    {
+        return false;
+    }
 
     /**
      * Returns a rowset containing all the children
@@ -126,9 +122,53 @@ class Person extends Zend_Db_Table_Row
         return;
     }
     
+    public function getSpouseCount()
+    {
+        $marriage_table = new MarriageTable();
+        ('male' === $this->gender) ? $where = '`husband_id` = ' . $this->id : $where = '`wife_id` = ' . $this->id;
+        return count($marriage_table->fetchAll($where));
+    }
+    
+    public function getSpouses()
+    {
+        if (! $this->isMarried()) {
+            return false;
+        }
+        
+        if ('male' === $this->gender) {
+            $partner_field = 'husband_id';
+            $other_partner_field = 'wife_id';
+        } else {
+            $partner_field = 'wife_id';
+            $other_partner_field = 'husband_id';
+        }        
+        $marriage_table = new MarriageTable();        
+        $where = '`' . $partner_field . '` = ' . $this->id;
+        $marriages = $marriage_table->fetchAll($where);
+        $spouse_ids = array();
+        foreach ($marriages as $marriage) {
+            $spouse_ids[] = $marriage->$other_partner_field;
+        }
+        
+        $person_table = new PersonTable();
+        return $person_table->fetchAll('`id` IN (' . implode(',', $spouse_ids) . ')');
+    }
+    
     public function getSpouse($number = 1)
     {
+        if (! $this->isMarried()) {
+            return false;
+        }
         
+        $marriage_table = new MarriageTable();
+        ('male' === $this->gender) ? $where = '`husband_id` = ' . $this->id : $where = '`wife_id` = ' . $this->id;
+        $marriages = $marriage_table->fetchAll($where)->toArray();
+        
+        if ($number > count($marriages) + 1) {
+            return false;
+        } else {
+            return $marriages[$number - 1];
+        }
     }
     
     public function isPregnant()
