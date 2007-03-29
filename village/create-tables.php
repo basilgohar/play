@@ -1,5 +1,7 @@
 <?php
 
+require_once 'config.php';
+
 $tables_sql = array();
 
 //  Ensure all tables SQL have IF NOT EXISTS!

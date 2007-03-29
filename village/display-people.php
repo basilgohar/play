@@ -71,7 +71,7 @@ if (! isset($_GET['id'])) {
 
     $body->appendChild($p = $doc->createElement('p'));
     $p->appendChild($a = $doc->createElement('a', 'Return to people list'));
-    $a->setAttribute('href', 'index.php');
+    $a->setAttribute('href', 'display-people.php');
 }
 
 $total_time = microtime(true) - $start_time;
