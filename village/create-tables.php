@@ -23,7 +23,7 @@ $tables_sql['person'] = "CREATE TABLE IF NOT EXISTS `person` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
-$tables_sql['ancestry'] = "CREATE TABLE IF NOT EXISTS `ancestry` (
+$tables_sql['family'] = "CREATE TABLE IF NOT EXISTS `family` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `person_id` int(10) unsigned NOT NULL,
   `mother_id` int(10) unsigned NOT NULL,

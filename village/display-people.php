@@ -30,7 +30,7 @@ if (! isset($_GET['id'])) {
     $table->appendChild($caption = $doc->createElement('caption', 'People'));
 
     $table->appendChild($first_row = $doc->createElement('tr'));    
-    $table_headers = array('Name', 'Gender', 'Eligable', '# Spouses');    
+    $table_headers = array('Name', 'Gender', 'Eligable', '# Spouses', '# Children');    
     foreach ($table_headers as $table_header) {
         $first_row->appendChild($doc->createElement('th', $table_header));
     }
@@ -41,7 +41,8 @@ if (! isset($_GET['id'])) {
         $a->setAttribute('href', '?id=' . $person->id);        
         $tr->appendChild($td_gender = $doc->createElement('td', $person->gender));
         $tr->appendChild($doc->createElement('td', $person->isEligableForMarriage() ? 'yes' : 'no'));
-        $tr->appendChild($doc->createElement('td', $person->getSpouseCount()));
+        $tr->appendChild($doc->createElement('td', count($person->getSpouses())));
+        $tr->appendChild($doc->createElement('td', count($person->getChildren())));
     }
 } else {
     $person = $person_table->fetchRow('`id` = ' . $_GET['id']);
@@ -57,14 +58,24 @@ if (! isset($_GET['id'])) {
             $tr->appendChild($td = $doc->createElement('td'));
             $td->appendChild($a = $doc->createElement('a'));
             $a->setAttribute('href', '?id=' . $spouse->id);
-            $a->nodeValue = $spouse->__toString();
+            $a->nodeValue = $spouse->getFullName();
         }
     } else {
         $body->appendChild($p = $doc->createElement('p', 'No spouses'));
     }
 
     if ($person->hasChildren()) {
-        
+        $body->appendChild($table = $doc->createElement('table'));
+        $table->appendChild($caption = $doc->createElement('caption', 'Children'));
+        $table->appendChild($first_row = $doc->createElement('tr'));
+        $first_row->appendChild($th = $doc->createElement('th', 'Name'));
+        foreach ($person->getChildren() as $child) {
+            $table ->appendChild($tr = $doc->createELement('tr'));
+            $tr->appendChild($td = $doc->createElement('td'));
+            $td->appendChild($a = $doc->createElement('a'));
+            $a->setAttribute('href', '?id=' . $child->id);
+            $a->nodeValue = $child->__toString();
+        }
     } else {
         $body->appendChild($p = $doc->createElement('p', 'No children'));
     }
