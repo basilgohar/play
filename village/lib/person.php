@@ -131,7 +131,7 @@ class Person extends Zend_Db_Table_Row
         return count($this->getSpouses());
     }
     
-    /*
+    
     public function getSpouses()
     {
         //if (null === $this->spouses) {
@@ -156,12 +156,14 @@ class Person extends Zend_Db_Table_Row
         //}        
         return $this->spouses;
     }
-    */
     
+    
+    /*
     public function getSpouses()
     {
         return $this->findPersonTableViaMarriageTable();
     }
+    */
 
     public function haveChild()
     {
