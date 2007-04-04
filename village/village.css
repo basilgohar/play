@@ -24,7 +24,14 @@ th {
 td {
 	border: solid black 1px;
 	padding: 2px;
+}
+
+tr.male td {
 	background: lightsteelblue;
+}
+
+tr.female td {
+	background: pink;
 }
 
 a {

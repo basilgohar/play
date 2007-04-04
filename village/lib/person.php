@@ -30,10 +30,10 @@ class Person extends Zend_Db_Table_Row
                 throw new Exception('Unknown gender');
                 break;
             case 'male':
-                return (count($this->getSpouses()) < 4);
+                return (count($this->getSpouses()) < VILLAGE_SPOUSE_MAX_MALE);
                 break;
             case 'female':
-                return ! $this->isMarried();
+                return (count($this->getSpouses()) < VILLAGE_SPOUSE_MAX_FEMALE);
                 break;
         }
     }
@@ -134,26 +134,26 @@ class Person extends Zend_Db_Table_Row
     
     public function getSpouses()
     {
-        //if (null === $this->spouses) {
-            if ('male' === $this->gender) {
-                $partner_field = 'husband_id';
-                $other_partner_field = 'wife_id';
-            } else {
-                $partner_field = 'wife_id';
-                $other_partner_field = 'husband_id';
+
+        if ('male' === $this->gender) {
+            $partner_field = 'husband_id';
+            $other_partner_field = 'wife_id';
+        } else {
+            $partner_field = 'wife_id';
+            $other_partner_field = 'husband_id';
+        }
+        $marriage_table = new MarriageTable();        
+        $where = '`' . $partner_field . '` = ' . $this->id;
+        $marriages = $marriage_table->fetchAll($where);
+        if (count($marriages) > 0) {
+            $spouse_ids = array();
+            foreach ($marriages as $marriage) {
+                $spouse_ids[] = $marriage->$other_partner_field;
             }
-            $marriage_table = new MarriageTable();        
-            $where = '`' . $partner_field . '` = ' . $this->id;
-            $marriages = $marriage_table->fetchAll($where);
-            if (count($marriages) > 0) {
-                $spouse_ids = array();
-                foreach ($marriages as $marriage) {
-                    $spouse_ids[] = $marriage->$other_partner_field;
-                }
-                $person_table = new PersonTable();
-                $this->spouses = $person_table->fetchAll('`id` IN (' . implode(',', $spouse_ids) . ')');
-            }            
-        //}        
+            $person_table = new PersonTable();
+            $this->spouses = $person_table->fetchAll('`id` IN (' . implode(',', $spouse_ids) . ')');
+        }            
+        
         return $this->spouses;
     }
     
