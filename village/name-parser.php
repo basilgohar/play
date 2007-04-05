@@ -21,7 +21,6 @@ foreach ($types as $type => $filename) {
 	while (($line = fgets($fp)) !== false) {
 		$normalized_line = preg_replace('/ +/', ' ', $line);
 		$values = explode(' ', $normalized_line);
-		//print_r($values);
 		$name = $name_table->fetchNew();
 		$name->value = $values[0];		
 		$name->type = $type;

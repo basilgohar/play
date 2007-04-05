@@ -15,12 +15,16 @@ $tables_sql['name'] = "CREATE TABLE IF NOT EXISTS `name` (
 
 $tables_sql['person'] = "CREATE TABLE IF NOT EXISTS `person` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name_first` varchar(255) collate utf8_unicode_ci NOT NULL,
-  `name_last` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `name_first_id` mediumint(5) unsigned NOT NULL,
+  `name_last_id` mediumint(5) unsigned NOT NULL,
   `gender` enum('female','male') collate utf8_unicode_ci NOT NULL,
   `date_birth` datetime NOT NULL,
   `date_death` datetime NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `name_first_id` (`name_first_id`),
+  KEY `name_last_id` (`name_last_id`),
+  CONSTRAINT `name_first_id_fk` FOREIGN KEY (`name_first_id`) REFERENCES `name` (`id`),
+  CONSTRAINT `name_last_id_fk` FOREIGN KEY (`name_last_id`) REFERENCES `name` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
 $tables_sql['family'] = "CREATE TABLE IF NOT EXISTS `family` (

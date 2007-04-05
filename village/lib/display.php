@@ -3,14 +3,22 @@
 function create_person_row(Person $person)
 {
     global $doc;
+    global $table_data;
+    
+    $person_name = $person->getFullName();
+    $person_gender = $person->gender;
+    $person_spouse_count = count($person->getSpouses());
+    $person_child_count = count($person->getChildren());
+    
+    $table_data[] = array($person_name, $person_gender, $person_spouse_count, $person_child_count);
     
     $tr = $doc->createElement('tr');
     $tr->appendChild($td_name = $doc->createElement('td'));
-    $td_name->appendChild($a = $doc->createElement('a', $person->__toString()));
+    $td_name->appendChild($a = $doc->createElement('a', $person_name));
     $a->setAttribute('href', '?id=' . $person->id);        
-    $tr->appendChild($td_gender = $doc->createElement('td', $person->gender));
-    $tr->appendChild($td_spouse_count = $doc->createElement('td', count($person->getSpouses())));
-    $tr->appendChild($td_children_count = $doc->createElement('td', count($person->getChildren())));
+    $tr->appendChild($td_gender = $doc->createElement('td', $person_gender));
+    $tr->appendChild($td_spouse_count = $doc->createElement('td', $person_spouse_count));
+    $tr->appendChild($td_children_count = $doc->createElement('td', $person_child_count));
 
     if ('female' === $person->gender) {
         $tr->setAttribute('class', 'female');

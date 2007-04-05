@@ -21,24 +21,20 @@ foreach ($names as $name) {
 		default:
 			break;
 		case 'male':
-			$names_male[] = $name->value;
+			$name_ids_male[] = $name->id;
 			break;
 		case 'female':
-			$names_female[] = $name->value;
+			$name_ids_female[] = $name->id;
 			break;
 		case 'last':
-			$names_last[] = $name->value;
+			$name_ids_last[] = $name->id;
 			break;
 	}
 }
 
-sort($names_male);
-sort($names_female);
-sort($names_last);
-
-$names_male_count = sizeof($names_male);
-$names_female_count = sizeof($names_female);
-$names_last_count = sizeof($names_last);
+$names_male_count = count($name_ids_male);
+$names_female_count = count($name_ids_female);
+$names_last_count = count($name_ids_last);
 $genders = array('male', 'female');
 
 $now_string = date('Y-m-d H:i:s');
@@ -46,15 +42,15 @@ $now_string = date('Y-m-d H:i:s');
 for ($i = 0; $i < VILLAGE_POPULATION; $i++) {
 	$gender = $genders[mt_rand(0, 1)];
 	if ($gender == 'male') {
-		$first_name = $names_male[mt_rand(0, $names_male_count - 1)];
+		$name_first_id = $name_ids_male[mt_rand(0, $names_male_count - 1)];
 	} else {
-		$first_name = $names_female[mt_rand(0, $names_female_count - 1)];
+		$name_first_id = $name_ids_female[mt_rand(0, $names_female_count - 1)];
 	}
-	$last_name = $names_last[mt_rand(0, $names_last_count - 1)];
+	$name_last_id = $name_ids_last[mt_rand(0, $names_last_count - 1)];
 
 	$person = $person_table->fetchNew();
-	$person->name_first = $first_name;
-	$person->name_last = $last_name;
+	$person->name_first_id = $name_first_id;
+	$person->name_last_id = $name_last_id;
 	$person->date_birth = $now_string;
 	$person->date_death = 0;
 	$person->gender = $gender;	

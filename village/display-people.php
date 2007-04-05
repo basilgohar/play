@@ -23,6 +23,8 @@ $link->setAttribute('href', 'village.css');
 
 $html->appendChild($body = $doc->createElement('body'));
 
+$table_data = array();
+
 if (! isset($_GET['id'])) {
     $title->nodeValue .= ' - People list';
     $body->appendChild(create_person_table($person_table->fetchAll(null, array('name_last', 'name_first'), VILLAGE_DISPLAY_LIMIT), 'People'));

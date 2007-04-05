@@ -12,6 +12,22 @@ class Person extends Zend_Db_Table_Row
     
     protected $marriage_field_name = '';
     protected $family_field_name = '';
+    
+    protected $name_first = null;
+    protected $name_last = null;
+    
+    public function getFirstName()
+    {
+        if (null === $this->name_first) {
+            $name_table = new NameTable();
+            $first_name = $name_table->findName
+        }
+    }
+    
+    public function getLastName()
+    {
+        
+    }
 
     public function getFullName()
     {

@@ -18,7 +18,7 @@ class FamilyTable extends Zend_Db_Table_Abstract
             'refTableClass' => 'PersonTable',
             'refColumns'    => array('id')
         ),
-        'Motherr' => array(
+        'Mother' => array(
             'columns'       => array('mother_id'),
             'refTableClass' => 'PersonTable',
             'refColumns'    => array('id')
@@ -47,6 +47,7 @@ class MarriageTable extends Zend_Db_Table_Abstract
 class NameTable extends Zend_Db_Table_Abstract
 {
     protected $_name = 'name';
+    protected $_dependentTables = array('PersonTable');
     
     public function fetchRandom($type = 'last')
     {
@@ -64,4 +65,16 @@ class PersonTable extends Zend_Db_Table_Abstract
     protected $_name = 'person';
     protected $_rowClass = 'Person';
     protected $_dependentTables = array('FamilyTable', 'MarriageTable');
+    protected $_referenceMap = array(
+        'FirstName' => array(
+            'columns'		=> array('name_first_id'),
+            'refTableClass'	=> 'NameTable',
+            'refColumns'	=> array('id')
+        ),
+        'LastName' => array(
+            'columns'		=> array('name_last_id'),
+            'refTableClass'	=> 'NameTable',
+            'refColumns'	=> array('id')
+        )
+    );
 }
