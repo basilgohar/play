@@ -27,7 +27,8 @@ $table_data = array();
 
 if (! isset($_GET['id'])) {
     $title->nodeValue .= ' - People list';
-    $body->appendChild(create_person_table($person_table->fetchAll(null, array('name_last', 'name_first'), VILLAGE_DISPLAY_LIMIT), 'People'));
+    $body->appendChild(create_person_table($person_table->fetchAll(null, null, VILLAGE_DISPLAY_LIMIT)->toArray(), 'People'));
+    //$body->appendChild(create_person_table($person_table->fetchOrdered(VILLAGE_DISPLAY_LIMIT), 'People'));
 } else {
     $person = $person_table->fetchRow('`id` = ' . $_GET['id']);
     $title->nodeValue .= ' - ' . $person->__toString();

@@ -10,6 +10,8 @@ $types = array('male' => FILE_NAME_MALE, 'female' => FILE_NAME_FEMALE, 'last' =>
 
 $name_table = new NameTable();
 
+$db->query('SET max_allowed_packet=' . pow(2, 32));
+
 $db->query('TRUNCATE TABLE `name`');
 
 foreach ($types as $type => $filename) {
@@ -17,13 +19,22 @@ foreach ($types as $type => $filename) {
 		trigger_error('Could not open file ' . $filename, E_USER_WARNING);
 		continue;
 	}
+    
+    $sql = "INSERT INTO name (value, type) VALUES ";
 
 	while (($line = fgets($fp)) !== false) {
 		$normalized_line = preg_replace('/ +/', ' ', $line);
 		$values = explode(' ', $normalized_line);
+        /*
 		$name = $name_table->fetchNew();
 		$name->value = $values[0];		
 		$name->type = $type;
 		$name->save();
+        */
+        $sql .= "('" . ucfirst(strtolower($values[0])) . "','$type'),";
 	}
+    
+    $sql = substr($sql, 0, -1);
+    
+    $db->query($sql);
 }

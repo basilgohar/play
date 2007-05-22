@@ -29,12 +29,13 @@ function create_person_row(Person $person)
     return $tr;    
 }
 
-function create_person_table(Zend_Db_Table_Rowset $people, $caption = 'People')
+function create_person_table(array $people, $caption = 'People')
 {
     global $doc;
 
     $table = $doc->createElement('table');
-    $table->appendChild($caption = $doc->createElement('caption', $caption));
+    //$table->appendChild($caption = $doc->createElement('caption', $caption));
+    $table->appendChild(create_table_caption($caption));
     $table->appendChild($first_row = $doc->createElement('tr'));
     $table_headers = array('Name', 'Gender', '# Spouses', '# Children');
     foreach ($table_headers as $table_header) {
@@ -45,4 +46,25 @@ function create_person_table(Zend_Db_Table_Rowset $people, $caption = 'People')
     }
 
     return $table;
+}
+
+function create_table_caption($text = '', $limit = 0, $offset = 0)
+{
+    global $doc;
+    
+    $caption = $doc->createElement('caption');
+    
+    $caption->appendChild($a_beginning = $doc->createElement('a', '⇦'));
+    $a_beginning->setAttribute('href', '?offset=0');
+    $caption->appendChild($a_back = $doc->createElement('a', '←'));
+    $a_back->setAttribute('href', '?offset=0');
+    $caption->appendChild($a_caption_text = $doc->createElement('a', $text));
+    $a_caption_text->setAttribute('href', 'display-people.php');
+    $caption->appendChild($a_forward = $doc->createElement('a', '→'));
+    $a_forward->setAttribute('href', '?offset=100');
+    $caption->appendChild($a_end = $doc->createElement('a', '⇨'));
+    $a_end->setAttribute('href', '?offset=100');
+
+    return $caption;    
+    
 }

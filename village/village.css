@@ -2,6 +2,7 @@ body {
 	font-family: Verdana, Helvetica, Arial, sans;
 	font-size: small;
 	color: darkslategrey;
+	margin: auto;
 }
 
 table {
@@ -36,6 +37,7 @@ tr.female td {
 
 a {
 	color: slategrey;
+	text-decoration: none;
 }
 
 a:hover {

@@ -15,13 +15,10 @@ define('VILLAGE_SPOUSE_MAX_FEMALE', 1);
 
 set_include_path(get_include_path() . PATH_SEPARATOR . ZF_PATH);
 
-$CFG = array();
-
 $CFG['db'] = array (
 	'host' => 'localhost',
 	'username' => 'play',
-	'password' => 'play',
-	'dbname' => 'play'
+	'password' => 'play'
 );
 
 require_once 'Zend/Db.php';

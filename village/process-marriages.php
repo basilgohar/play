@@ -8,21 +8,25 @@ require_once 'config.php';
 
 $person_table = new PersonTable();
 
-foreach ($person_table->fetchAll() as $person) {
-    if (! $person->isEligableForMarriage()) {
-        continue;
-    }
-    $random_person = $person_table->fetchRow(null, 'RAND()', 1);
-    if (! $person->isEligableForMarriage()) {
-        continue;
-    }
-    if ($person->canMarry($random_person)) {
-        if ($person->marryTo($random_person)) {
+$engaged_couples = array();
+
+foreach ($person_table->fetchAll(null, 'RAND()') as $person) {    
+    ('male' === $person->gender) ? $random_person_gender = 'female' : $random_person_gender = 'male';    
+    $random_person = $person_table->fetchRow("`gender` = '$random_person_gender'", 'RAND()');    
+    $engaged_couples[] = array($person->gender => $person, $random_person_gender => $random_person);
+}
+
+
+if (count($engaged_couples) > 0) {
+    $db->beginTransaction();
+    foreach ($engaged_couples as $engaged_couple) {
+        if ($engaged_couple['female']->marryTo($engaged_couple['male'])) {
             echo 'Successfully married ';
-            echo $person;
+            echo $engaged_couple['female'];
             echo ' to ';
-            echo $random_person;
+            echo $engaged_couple['male'];
             echo "\n";
         }
     }
+    $db->commit();
 }

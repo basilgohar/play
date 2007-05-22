@@ -16,22 +16,34 @@ class Person extends Zend_Db_Table_Row
     protected $name_first = null;
     protected $name_last = null;
     
-    public function getFirstName()
+    public function getNameValue($type = 'first')
     {
-        if (null === $this->name_first) {
-            $name_table = new NameTable();
-            $first_name = $name_table->findName
+        switch ($type) {
+            default:
+                break;
+            case 'first':
+                $name = $this->findParentRow('NameTable', 'FirstName');
+                break;
+            case 'last':
+                $name = $this->findParentRow('NameTable', 'LastName');
+                break;
         }
+        return $name->value;
     }
     
-    public function getLastName()
+    public function getNameFirst()
     {
+        return $this->getNameValue('first');
+    }
         
+    public function getNameLast()
+    {
+        return $this->getNameValue('last');
     }
 
     public function getFullName()
     {
-        return $this->name_first . ' ' . $this->name_last;
+        return $this->getNameFirst() . ' ' . $this->getNameLast();
     }
     
     public function __toString()
@@ -74,7 +86,8 @@ class Person extends Zend_Db_Table_Row
     public function marryTo(Person $spouse)
     {
         if (! $this->canMarry($spouse)) {
-            throw new Exception('Impossible marriage arrangement');
+            //throw new Exception('Impossible marriage arrangement');
+            return false;
         }
         
         $marriage_table = new MarriageTable();
@@ -109,6 +122,8 @@ class Person extends Zend_Db_Table_Row
      * of this person, if any
      *
      */
+     
+    /*
     public function getChildren()
     {
         if ('male' === $this->gender) {
@@ -131,6 +146,17 @@ class Person extends Zend_Db_Table_Row
         
         return $this->children;
     }
+    */
+    
+    public function getChildren()
+    {
+        if ('male' === $this->gender) {
+            $parent_role = 'Father';
+        } else {
+            $parent_role = 'Mother';
+        }
+        return $this->findManyToManyRowset('PersonTable', 'FamilyTable', $parent_role, 'Child');
+    }
     
     public function getFather()
     {
@@ -147,7 +173,7 @@ class Person extends Zend_Db_Table_Row
         return count($this->getSpouses());
     }
     
-    
+    /*
     public function getSpouses()
     {
 
@@ -172,14 +198,19 @@ class Person extends Zend_Db_Table_Row
         
         return $this->spouses;
     }
+    */    
     
-    
-    /*
     public function getSpouses()
     {
-        return $this->findPersonTableViaMarriageTable();
+        if ('male' === $this->gender) {
+            $marriage_role = 'Husband';
+            $spouse_role = 'Wife';
+        } else {
+            $marriage_role = 'Wife';
+            $spouse_role = 'Husband';
+        }
+        return $this->findManyToManyRowset('PersonTable', 'MarriageTable', $marriage_role, $spouse_role);
     }
-    */
 
     public function haveChild()
     {
@@ -200,13 +231,13 @@ class Person extends Zend_Db_Table_Row
         
         $name_table = new NameTable();
         
-        $name_first = $name_table->fetchRandom($child_gender)->value;        
+        $name_first_id = $name_table->fetchRandom($child_gender)->id;        
         
         $person_table = new PersonTable();
         
         $child = $person_table->fetchNew();
-        $child->name_first = $name_first;
-        $child->name_last = $father->name_last;
+        $child->name_first_id = $name_first_id;
+        $child->name_last_id = $father->name_last_id;
         $child->gender = $child_gender;
         $child->date_birth = date('Y-m-d H:i:s');
         $child->date_death = '';

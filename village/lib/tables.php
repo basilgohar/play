@@ -77,4 +77,36 @@ class PersonTable extends Zend_Db_Table_Abstract
             'refColumns'	=> array('id')
         )
     );
+    
+    public function fetchRandomEligableForMarriage($gender = 'female')
+    {
+        switch ($gender) {
+            default:
+                throw new Exception('Invalid gender "' . $gender . '" specified.');
+                break;
+            case 'male':
+                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `person` `p` LEFT JOIN `marriage` m ON `p`.`id` = `m`.`husband_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+                break;
+            case 'female':
+                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `person` `p` LEFT JOIN `marriage` m ON `p`.`id` = `m`.`wife_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+                break;
+        }
+        return $this->getAdapter()->fetchAssoc($sql);        
+    }
+    
+    public function fetchPeopleEligableForMarrage($gender = null)
+    {
+        
+    }
+    
+    /*
+    public function fetchOrdered($limit = 0)
+    {
+        $sql = "SELECT p.id FROM person p JOIN name name_first ON p.name_first_id = name_first.id JOIN name name_last ON p.name_last_id = name_last.id ORDER BY name_last.value ASC , name_first.value ASC LIMIT $limit";
+        $result = $this->getAdapter()->query($sql);
+        print_r($result);
+        exit;
+        //return $this->find($result);
+    }
+    */
 }
