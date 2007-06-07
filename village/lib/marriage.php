@@ -10,7 +10,7 @@ class Marriage extends Zend_Db_Table_Row
     public function getHusband()
     {
         if (null === $this->husband) {
-            $person_table = new PersonTable();
+            $person_table = new Persons();
             $this->husband = $person_table->fetchRow('`id` = ' . $this->husband_id);
         }
         return $this->husband;
@@ -19,7 +19,7 @@ class Marriage extends Zend_Db_Table_Row
     public function getWife()
     {
         if (null === $this->wife) {
-            $person_table = new PersonTable();
+            $person_table = new Persons();
             $this->wife = $person_table->fetchRow('`id` = ' . $this->wife_id);
         }
         return $this->wife;

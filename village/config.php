@@ -8,7 +8,7 @@ define('VILLAGE_SPOUSE_MAX_FEMALE', 1);
 
 $CFG = array();
 
-$CFG['db']['dbname'] = 'village';
+$CFG['db']['dbname'] = 'play';
 
 require_once '../config.inc.php';
 

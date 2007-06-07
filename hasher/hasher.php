@@ -1,18 +1,18 @@
 <?php
 
+$start_time = microtime(true);
+
 set_time_limit(0);
 
 //define('COUNT', pow(26, 6) + pow(26, 5) + pow(26, 4) + pow(26, 3) + pow(26, 2) + pow(26, 1));
 define('COUNT', 1000000);
 define('INCREMENT_DIVISOR', 80);
 define('INCREMENT_UPDATE', COUNT/INCREMENT_DIVISOR);
-define('CONNECTOR', 'pdo');
+define('CONNECTOR', 'zend_db');
 if (file_exists('/dev/shm')) {
 	define('PATH', '/dev/shm');
 }
 define('FILENAME', 'something');
-
-$start_time = microtime(true);
 
 switch (CONNECTOR) {
    case 'pdo':

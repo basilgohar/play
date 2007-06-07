@@ -8,11 +8,9 @@ define('FILE_NAME_LAST', 'dist.all.last');
 
 $types = array('male' => FILE_NAME_MALE, 'female' => FILE_NAME_FEMALE, 'last' => FILE_NAME_LAST);
 
-$name_table = new NameTable();
+$names = new Names();
 
-$db->query('SET max_allowed_packet=' . pow(2, 32));
-
-$db->query('TRUNCATE TABLE `name`');
+$db->query('TRUNCATE TABLE `Names`');
 
 foreach ($types as $type => $filename) {
 	if (!$fp = fopen($filename, 'r')) {
@@ -20,21 +18,16 @@ foreach ($types as $type => $filename) {
 		continue;
 	}
     
-    $sql = "INSERT INTO name (value, type) VALUES ";
+    $sql = "INSERT INTO `Names` (`value`, `type`) VALUES ";
 
 	while (($line = fgets($fp)) !== false) {
 		$normalized_line = preg_replace('/ +/', ' ', $line);
 		$values = explode(' ', $normalized_line);
-        /*
-		$name = $name_table->fetchNew();
-		$name->value = $values[0];		
-		$name->type = $type;
-		$name->save();
-        */
+        
         $sql .= "('" . ucfirst(strtolower($values[0])) . "','$type'),";
 	}
     
     $sql = substr($sql, 0, -1);
-    
+
     $db->query($sql);
 }

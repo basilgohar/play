@@ -4,50 +4,50 @@ require_once 'Zend/Db/Table.php';
 require_once 'Zend/Db/Table/Row.php';
 require_once 'Zend/Db/Table/Rowset.php';
 
-class FamilyTable extends Zend_Db_Table_Abstract
+class Families extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'family';
+    //protected $_name = 'family';
     protected $_referenceMap = array(
         'Child' => array(
             'columns'       => array('person_id'),
-            'refTableClass' => 'PersonTable',
+            'refTableClass' => 'People',
             'refColumns'    => array('id')
         ),
         'Father' => array(
             'columns'       => array('father_id'),
-            'refTableClass' => 'PersonTable',
+            'refTableClass' => 'People',
             'refColumns'    => array('id')
         ),
         'Mother' => array(
             'columns'       => array('mother_id'),
-            'refTableClass' => 'PersonTable',
+            'refTableClass' => 'People',
             'refColumns'    => array('id')
         )
     );
 }
 
-class MarriageTable extends Zend_Db_Table_Abstract
+class Marriages extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'marriage';
+    //protected $_name = 'marriage';
     protected $_rowClass = 'Marriage';
     protected $_referenceMap = array(
         'Husband' => array(
             'columns'       => array('husband_id'),
-            'refTableClass' => 'PersonTable',
+            'refTableClass' => 'People',
             'refColumns'    => array('id')
         ),
         'Wife' => array(
             'columns'       => array('wife_id'),
-            'refTableClass' => 'PersonTable',
+            'refTableClass' => 'People',
             'refColumns'    => array('id')
         )
     );
 }
 
-class NameTable extends Zend_Db_Table_Abstract
+class Names extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'name';
-    protected $_dependentTables = array('PersonTable');
+    //protected $_name = 'name';
+    protected $_dependentTables = array('People');
     
     public function fetchRandom($type = 'last')
     {
@@ -60,20 +60,20 @@ class NameTable extends Zend_Db_Table_Abstract
     }
 }
 
-class PersonTable extends Zend_Db_Table_Abstract
+class People extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'person';
+    //protected $_name = 'person';
     protected $_rowClass = 'Person';
-    protected $_dependentTables = array('FamilyTable', 'MarriageTable');
+    protected $_dependentTables = array('Families', 'Marriages');
     protected $_referenceMap = array(
         'FirstName' => array(
             'columns'		=> array('name_first_id'),
-            'refTableClass'	=> 'NameTable',
+            'refTableClass'	=> 'Names',
             'refColumns'	=> array('id')
         ),
         'LastName' => array(
             'columns'		=> array('name_last_id'),
-            'refTableClass'	=> 'NameTable',
+            'refTableClass'	=> 'Names',
             'refColumns'	=> array('id')
         )
     );

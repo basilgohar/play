@@ -6,16 +6,15 @@ set_time_limit(0);
 
 require_once 'config.php';
 
-$person_table = new PersonTable();
+$people = new People();
 
 $engaged_couples = array();
 
-foreach ($person_table->fetchAll(null, 'RAND()') as $person) {    
+foreach ($people->fetchAll(null, 'RAND()') as $person) {    
     ('male' === $person->gender) ? $random_person_gender = 'female' : $random_person_gender = 'male';    
-    $random_person = $person_table->fetchRow("`gender` = '$random_person_gender'", 'RAND()');    
+    $random_person = $people->fetchRow("`gender` = '$random_person_gender'", 'RAND()');    
     $engaged_couples[] = array($person->gender => $person, $random_person_gender => $random_person);
 }
-
 
 if (count($engaged_couples) > 0) {
     $db->beginTransaction();

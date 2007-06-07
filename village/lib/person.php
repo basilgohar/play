@@ -22,10 +22,10 @@ class Person extends Zend_Db_Table_Row
             default:
                 break;
             case 'first':
-                $name = $this->findParentRow('NameTable', 'FirstName');
+                $name = $this->findParentRow('Names', 'FirstName');
                 break;
             case 'last':
-                $name = $this->findParentRow('NameTable', 'LastName');
+                $name = $this->findParentRow('Names', 'LastName');
                 break;
         }
         return $name->value;
@@ -90,7 +90,7 @@ class Person extends Zend_Db_Table_Row
             return false;
         }
         
-        $marriage_table = new MarriageTable();
+        $marriage_table = new Marriages();
         $marriage = $marriage_table->fetchNew();
         
         if ($this->gender == 'male') {
@@ -155,7 +155,7 @@ class Person extends Zend_Db_Table_Row
         } else {
             $parent_role = 'Mother';
         }
-        return $this->findManyToManyRowset('PersonTable', 'FamilyTable', $parent_role, 'Child');
+        return $this->findManyToManyRowset('Persons', 'Families', $parent_role, 'Child');
     }
     
     public function getFather()
@@ -209,7 +209,7 @@ class Person extends Zend_Db_Table_Row
             $marriage_role = 'Wife';
             $spouse_role = 'Husband';
         }
-        return $this->findManyToManyRowset('PersonTable', 'MarriageTable', $marriage_role, $spouse_role);
+        return $this->findManyToManyRowset('Persons', 'Marriages', $marriage_role, $spouse_role);
     }
 
     public function haveChild()
@@ -229,11 +229,11 @@ class Person extends Zend_Db_Table_Row
 
         (0 === mt_rand(0,1)) ? $child_gender = 'male' : $child_gender = 'female';
         
-        $name_table = new NameTable();
+        $name_table = new Names();
         
         $name_first_id = $name_table->fetchRandom($child_gender)->id;        
         
-        $person_table = new PersonTable();
+        $person_table = new People();
         
         $child = $person_table->fetchNew();
         $child->name_first_id = $name_first_id;
@@ -244,7 +244,7 @@ class Person extends Zend_Db_Table_Row
         
         $child->save();
         
-        $family_table = new FamilyTable();
+        $family_table = new Families();
         $family_record = $family_table->fetchNew();
         
         $family_record->person_id = $child->id;
