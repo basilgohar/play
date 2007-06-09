@@ -2,7 +2,7 @@
 
 require_once 'config.php';
 
-$person_table = new PersonTable();
+$people = new People();
 
 $doctype = DOMImplementation::createDocumentType('html', '-//W3C//DTD XHTML 1.0 Strict//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd');
 
@@ -27,19 +27,18 @@ $table_data = array();
 
 if (! isset($_GET['id'])) {
     $title->nodeValue .= ' - People list';
-    $body->appendChild(create_person_table($person_table->fetchAll(null, null, VILLAGE_DISPLAY_LIMIT)->toArray(), 'People'));
-    //$body->appendChild(create_person_table($person_table->fetchOrdered(VILLAGE_DISPLAY_LIMIT), 'People'));
+    $body->appendChild(create_person_table($people->fetchAll(null, null, VILLAGE_DISPLAY_LIMIT)->toArray(), 'People'));
 } else {
-    $person = $person_table->fetchRow('`id` = ' . $_GET['id']);
+    $person = $people->fetchRow('`id` = ' . $_GET['id']);
     $title->nodeValue .= ' - ' . $person->__toString();
     $body->appendChild($doc->createElement('h1', $person->getFullName()));
     if ($person->isMarried()) {
-        $body->appendChild(create_person_table($person->getSpouses()));
+        $body->appendChild(create_person_table($person->getSpouses()->toArray()));
     } else {
         $body->appendChild($doc->createElement('p', 'No spouses'));
     }
     if ($person->hasChildren()) {
-        $body->appendChild(create_person_table($person->getChildren(), 'Children'));
+        $body->appendChild(create_person_table($person->getChildren()->toArray(), 'Children'));
     } else {
         $body->appendChild($doc->createElement('p', 'No children'));
     }

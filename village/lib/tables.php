@@ -6,7 +6,6 @@ require_once 'Zend/Db/Table/Rowset.php';
 
 class Families extends Zend_Db_Table_Abstract
 {
-    //protected $_name = 'family';
     protected $_referenceMap = array(
         'Child' => array(
             'columns'       => array('person_id'),
@@ -28,7 +27,6 @@ class Families extends Zend_Db_Table_Abstract
 
 class Marriages extends Zend_Db_Table_Abstract
 {
-    //protected $_name = 'marriage';
     protected $_rowClass = 'Marriage';
     protected $_referenceMap = array(
         'Husband' => array(
@@ -46,7 +44,6 @@ class Marriages extends Zend_Db_Table_Abstract
 
 class Names extends Zend_Db_Table_Abstract
 {
-    //protected $_name = 'name';
     protected $_dependentTables = array('People');
     
     public function fetchRandom($type = 'last')
@@ -62,7 +59,6 @@ class Names extends Zend_Db_Table_Abstract
 
 class People extends Zend_Db_Table_Abstract
 {
-    //protected $_name = 'person';
     protected $_rowClass = 'Person';
     protected $_dependentTables = array('Families', 'Marriages');
     protected $_referenceMap = array(
@@ -78,35 +74,19 @@ class People extends Zend_Db_Table_Abstract
         )
     );
     
-    public function fetchRandomEligableForMarriage($gender = 'female')
+    public function fetchRandomEligableForMarriage($gender)
     {
         switch ($gender) {
             default:
                 throw new Exception('Invalid gender "' . $gender . '" specified.');
                 break;
             case 'male':
-                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `person` `p` LEFT JOIN `marriage` m ON `p`.`id` = `m`.`husband_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `People` `p` LEFT JOIN `Marriages` m ON `p`.`id` = `m`.`husband_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
                 break;
             case 'female':
-                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `person` `p` LEFT JOIN `marriage` m ON `p`.`id` = `m`.`wife_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `People` `p` LEFT JOIN `Marriages` m ON `p`.`id` = `m`.`wife_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
                 break;
         }
         return $this->getAdapter()->fetchAssoc($sql);        
     }
-    
-    public function fetchPeopleEligableForMarrage($gender = null)
-    {
-        
-    }
-    
-    /*
-    public function fetchOrdered($limit = 0)
-    {
-        $sql = "SELECT p.id FROM person p JOIN name name_first ON p.name_first_id = name_first.id JOIN name name_last ON p.name_last_id = name_last.id ORDER BY name_last.value ASC , name_first.value ASC LIMIT $limit";
-        $result = $this->getAdapter()->query($sql);
-        print_r($result);
-        exit;
-        //return $this->find($result);
-    }
-    */
 }

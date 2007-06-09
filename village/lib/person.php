@@ -16,10 +16,11 @@ class Person extends Zend_Db_Table_Row
     protected $name_first = null;
     protected $name_last = null;
     
-    public function getNameValue($type = 'first')
+    public function getNameValue($type)
     {
         switch ($type) {
             default:
+                throw new Exception('Invalid name type "' . $type . '" specified');
                 break;
             case 'first':
                 $name = $this->findParentRow('Names', 'FirstName');
@@ -86,7 +87,6 @@ class Person extends Zend_Db_Table_Row
     public function marryTo(Person $spouse)
     {
         if (! $this->canMarry($spouse)) {
-            //throw new Exception('Impossible marriage arrangement');
             return false;
         }
         
@@ -117,37 +117,6 @@ class Person extends Zend_Db_Table_Row
         return count($this->getChildren()) > 0;
     }
 
-    /**
-     * Returns a rowset containing all the children
-     * of this person, if any
-     *
-     */
-     
-    /*
-    public function getChildren()
-    {
-        if ('male' === $this->gender) {
-            $field_name = 'father_id';
-        } else {
-            $field_name = 'mother_id';
-        }
-        
-        $family_table = new FamilyTable();
-        $families = $family_table->fetchAll("`$field_name` = $this->id");
-        
-        if (count($families) > 0) {
-            $child_ids = array();
-            foreach ($families as $family) {
-                $child_ids[] = $family->person_id;
-            }
-            $person_table = new PersonTable();
-            $this->children = $person_table->fetchAll('`id` IN (' . implode(',', $child_ids) . ')');
-        }
-        
-        return $this->children;
-    }
-    */
-    
     public function getChildren()
     {
         if ('male' === $this->gender) {
@@ -155,7 +124,7 @@ class Person extends Zend_Db_Table_Row
         } else {
             $parent_role = 'Mother';
         }
-        return $this->findManyToManyRowset('Persons', 'Families', $parent_role, 'Child');
+        return $this->findManyToManyRowset('People', 'Families', $parent_role, 'Child');
     }
     
     public function getFather()
@@ -172,34 +141,7 @@ class Person extends Zend_Db_Table_Row
     {
         return count($this->getSpouses());
     }
-    
-    /*
-    public function getSpouses()
-    {
 
-        if ('male' === $this->gender) {
-            $partner_field = 'husband_id';
-            $other_partner_field = 'wife_id';
-        } else {
-            $partner_field = 'wife_id';
-            $other_partner_field = 'husband_id';
-        }
-        $marriage_table = new MarriageTable();        
-        $where = '`' . $partner_field . '` = ' . $this->id;
-        $marriages = $marriage_table->fetchAll($where);
-        if (count($marriages) > 0) {
-            $spouse_ids = array();
-            foreach ($marriages as $marriage) {
-                $spouse_ids[] = $marriage->$other_partner_field;
-            }
-            $person_table = new PersonTable();
-            $this->spouses = $person_table->fetchAll('`id` IN (' . implode(',', $spouse_ids) . ')');
-        }            
-        
-        return $this->spouses;
-    }
-    */    
-    
     public function getSpouses()
     {
         if ('male' === $this->gender) {
@@ -209,7 +151,7 @@ class Person extends Zend_Db_Table_Row
             $marriage_role = 'Wife';
             $spouse_role = 'Husband';
         }
-        return $this->findManyToManyRowset('Persons', 'Marriages', $marriage_role, $spouse_role);
+        return $this->findManyToManyRowset('People', 'Marriages', $marriage_role, $spouse_role);
     }
 
     public function haveChild()

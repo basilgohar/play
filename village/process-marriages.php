@@ -10,12 +10,21 @@ $people = new People();
 
 $engaged_couples = array();
 
-foreach ($people->fetchAll(null, 'RAND()') as $person) {    
-    ('male' === $person->gender) ? $random_person_gender = 'female' : $random_person_gender = 'male';    
-    $random_person = $people->fetchRow("`gender` = '$random_person_gender'", 'RAND()');    
-    $engaged_couples[] = array($person->gender => $person, $random_person_gender => $random_person);
+foreach ($people->fetchAll("`gender` = 'female'", 'RAND()') as $female) {
+    //$engaged_couples[] = array('female' => $female, 'male' => $people->fetchRow("`gender` = 'male'", 'RAND()'));
+	$male = $people->fetchRow("`gender` = 'male'", 'RAND()');
+    if ($female->marryTo($male)) {
+        /*
+        echo 'Successfully married ';
+        //echo $female;
+        echo ' to ';
+        //echo $male;
+        echo "\n";
+		*/
+    }
+	
 }
-
+/*
 if (count($engaged_couples) > 0) {
     $db->beginTransaction();
     foreach ($engaged_couples as $engaged_couple) {
@@ -29,3 +38,4 @@ if (count($engaged_couples) > 0) {
     }
     $db->commit();
 }
+*/
