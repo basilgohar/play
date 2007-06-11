@@ -89,4 +89,19 @@ class People extends Zend_Db_Table_Abstract
         }
         return $this->getAdapter()->fetchAssoc($sql);        
     }
+    
+    public function fetchPeopleEligableForMarriage($gender)
+    {
+		switch ($gender) {
+			default:
+				throw new Exception('Invalid gender "' . $gender . '" specified.');
+				break;
+			case 'male':
+				break;
+			case 'female':
+				$sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' AND m.id IS NULL";
+				break;
+		}
+		return $this->fetchAll("`id` IN (" . $sub_sql . ")");
+    }
 }
