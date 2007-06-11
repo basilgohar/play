@@ -97,11 +97,13 @@ class People extends Zend_Db_Table_Abstract
 				throw new Exception('Invalid gender "' . $gender . '" specified.');
 				break;
 			case 'male':
+				$sub_sql = "SELECT p.* FROM `People` p LEFT JOIN `Marriages` m ON m.husband_id = p.id WHERE p.gender = 'male' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_MALE;
 				break;
 			case 'female':
-				$sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' AND m.id IS NULL";
+				$sub_sql = "SELECT p.* FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_FEMALE;
 				break;
 		}
-		return $this->fetchAll("`id` IN (" . $sub_sql . ")");
+		$records = $this->getAdapter()->query($sub_sql)->fetchAll();
+		return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
     }
 }
