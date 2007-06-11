@@ -19,3 +19,7 @@ require_once 'Zend/Db/Table.php';
 
 $db = Zend_Db::factory('PDO_MYSQL', $CFG['db']);
 Zend_Db_Table::setDefaultAdapter($db);
+
+$max_allowed_packet_array = current($db->query("SHOW VARIABLES LIKE 'max_allowed_packet'")->fetchAll());
+$max_allowed_packet = $max_allowed_packet_array['Value'];
+$max_sql_string_length = $max_allowed_packet - 10000;	//  Arbitrary value, really
