@@ -7,13 +7,48 @@ set_time_limit(0);
 require_once 'config.php';
 
 $people = new People();
-$eligable_women = $people->fetchPeopleEligableForMarriage('female');
-$eligable_men = $people->fetchPeopleEligableForMarriage('male');
+$eligable_women_ids = $people->fetchPeopleEligableForMarriage('female');
+$eligable_men_ids = $people->fetchPeopleEligableForMarriage('male');
 
-foreach ($eligable_women as $eligable_woman) {
-	$eligable_woman->marryTo(current($eligable_men));
-	$eligable_men->next();
+$eligable_women_count = count($eligable_women_ids);
+$eligable_men_count = count($eligable_men_ids);
+
+shuffle($eligable_women_ids);
+shuffle($eligable_men_ids);
+
+$sql_string = '';
+$sql_array = array();
+
+for ($i = 0; $i < $eligable_women_count; ++$i) {
+    $eligable_woman_id = $eligable_women_ids[$i];
+    if ($i < $eligable_men_count) {
+        $eligable_man_id = $eligable_men_ids[$i];
+    } else {
+        break;
+    }
+    $values = array($eligable_man_id, $eligable_woman_id, "'" . date('Y-m-d H:i:s') . "'", "''");
+    if ('' === $sql_string) {
+        $sql_string = "INSERT INTO `Marriages` (`husband_id`,`wife_id`,`date_married`,`date_divorced`) VALUES ";
+    }
+    $sql_string .= '(';
+    $sql_string .= implode(',', $values);
+    $sql_string .= '),';
+    if (strlen($sql_string) > $max_sql_string_length) {
+        $sql_array[] = substr($sql_string, 0, -1);
+        $sql_string = '';
+    }
 }
+
+if ('' !== $sql_string) {
+    $sql_array[] = substr($sql_string, 0, -1);
+    $sql_string = '';
+}
+
+$db->query('ALTER TABLE `Marriages` DISABLE KEYS');
+foreach ($sql_array as $sql_string) {
+    $db->query($sql_string);
+}
+$db->query('ALTER TABLE `Marriages` ENABLE KEYS');
 
 /*
 foreach ($people->fetchAll("`gender` = 'female'", 'RAND()') as $female) {

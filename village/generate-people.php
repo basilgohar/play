@@ -62,11 +62,11 @@ if ('' !== $sql) {
 }
 $db->query('TRUNCATE TABLE `People`');
 $db->query('ALTER TABLE `People` DISABLE KEYS');
-$db->query('LOCK TABLES `People` WRITE');
+//$db->query('LOCK TABLES `People` WRITE');
 foreach ($sql_array as $sql) {
 	$db->query($sql);
 }
-$db->query('UNLOCK TABLES');
+//$db->query('UNLOCK TABLES');
 $db->query('ALTER TABLE `People` ENABLE KEYS');
 
 $total_time = microtime(true) - $start_time;

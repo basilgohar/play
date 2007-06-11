@@ -197,4 +197,9 @@ class Person extends Zend_Db_Table_Row
         
         return $child;
     }
+    
+    public function isBloodRelative(Person $person)
+    {
+        
+    }
 }

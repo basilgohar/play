@@ -1,6 +1,6 @@
 <?php
 
-define('VILLAGE_POPULATION', 100000);
+define('VILLAGE_POPULATION', 10000000);
 define('VILLAGE_DISPLAY_LIMIT', 100);
 define('VILLAGE_CONTROLLER_PATH', '/home/basil.gohar/public_html/play/village/controllers');
 define('VILLAGE_SPOUSE_MAX_MALE', 4);
