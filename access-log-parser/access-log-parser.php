@@ -2,10 +2,10 @@
 
 set_time_limit(0);
 
-define('LOGFILE', 'access_log_audioislam');
+define('LOGFILE', 'access_log');
 define('PATTERN', '/^([0-9a-z.-]+) - (.+) \[(.+)\] "(.*)" ([0-9]+) ([0-9-]+) "(.*)" "(.*)"$/');
 
-require_once '../config.inc.php';
+//require_once '../config.inc.php';
 
 $max_sizes = array();
 
@@ -40,4 +40,3 @@ echo 'Max match lengths:' . "\n";
 print_r($max_sizes);
 
 echo $count . ' lines processed' . "\n";
-
