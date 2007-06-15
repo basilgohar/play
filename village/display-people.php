@@ -11,7 +11,7 @@ $doc = DOMImplementation::createDocument(null, 'html', $doctype);
 $doc->formatOutput = true;
 $doc->encoding = 'utf-8';
 
-$html = $doc->getElementsByTagName('html')->item(0);
+$html = $doc->documentElement;
 
 $html->appendChild($head = $doc->createElement('head'));
 

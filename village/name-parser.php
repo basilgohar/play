@@ -17,7 +17,7 @@ $db->query('TRUNCATE TABLE `Names`');
 $values_array = array();
 
 foreach ($types as $type => $filename) {
-	if (!$fp = fopen($filename, 'r')) {
+	if (!$fp = fopen('data/' . $filename, 'r')) {
 		trigger_error('Could not open file ' . $filename, E_USER_WARNING);
 		continue;
 	}
