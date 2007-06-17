@@ -2,14 +2,9 @@
 
 require_once 'config.php';
 
-foreach ($tables_sql as $table_name => $table_sql) {
-    $db->query($table_sql);
-}
-
-/*
 if (null !== $db_tables) {
     foreach ($db_tables as $table_name => $table_attributes) {
-        $sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (';
+        $sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (' . "\n";
         foreach ($table_attributes as $attributes_type => $attribute_values) {
             switch ($attributes_type) {
                 default:
@@ -19,6 +14,7 @@ if (null !== $db_tables) {
                         if (is_string($column_nature)) {
 	                        switch ($column_nature) {
 	                            default:
+	                                throw new Exception('Unknown column nature: ' . $column_nature);
 	                                break;
 	                            case 'integer':
 	                                $sql .= '`' . $column_name . '` int(10) unsigned not null';
@@ -31,19 +27,36 @@ if (null !== $db_tables) {
 	                            case 'string':
 	                                $sql .= '`' . $column_name . "` varchar(255) not null default ''"; 
 	                                break;
+	                            case 'datetime':
+	                                $sql .= '`' . $column_name . "` datetime not null default '0000-00-00 00:00:00'";
+	                                break;
 	                        }
                         } else if (is_array($column_nature)) {
-                            
+                            $sql .= '`' . $column_name . "` enum('" . implode("','", $column_nature) . "') not null";
                         } else {
-                            
+                            throw new Exception('Unknown column nature: ' . $column_nature);
                         }
-                    }
+                        $sql .= ',' . "\n";
+                    }                    
                     break;
                 case 'keys':
+                    foreach ($attribute_values as $column_name => $key_type) {
+                        switch ($key_type) {
+                            default:
+                                $sql .= 'KEY `' . $column_name . '` (`' . $column_name . '`)';
+                                break;
+                            case 'primary':
+                                $sql .= 'PRIMARY KEY (`' . $column_name . '`)';
+                                break;
+                        }
+                        $sql .= ',' . "\n";
+                    }
                     break;
             }
-        }        
+        }
+        $sql = substr($sql, 0, -2);
+        $sql .= "\n";
         $sql .= ')';
+        $db->query($sql);
     }
 }
-*/

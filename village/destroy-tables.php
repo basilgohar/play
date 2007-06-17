@@ -2,6 +2,6 @@
 
 require_once 'config.php';
 
-foreach ($tables_sql as $table_name => $table_sql) {
+foreach (array_keys($db_tables) as $table_name) {
     $db->query("DROP TABLE IF EXISTS `$table_name`");
 }
