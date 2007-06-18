@@ -47,6 +47,7 @@ function create_person_table(array $people, $caption = 'People')
         $table->appendChild(create_person_row($person['id']));
     }
 
+    $table->setAttribute('style', 'margin: auto');
     return $table;
 }
 
@@ -59,6 +60,7 @@ function create_table_caption($text = '', $offset = 0)
     $caption->appendChild($a_caption_text = $doc->createElement('a', $text));
     $a_caption_text->setAttribute('href', 'display-people.php');
 
+    $caption->setAttribute('style', 'margin: auto');
     return $caption;    
     
 }
