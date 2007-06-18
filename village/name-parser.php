@@ -2,7 +2,7 @@
 
 $start_time = microtime(true);
 
-require_once 'config.php';
+require_once 'config.default.php';
 
 define('FILE_NAME_MALE', 'dist.male.first');
 define('FILE_NAME_FEMALE', 'dist.female.first');

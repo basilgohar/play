@@ -4,7 +4,7 @@ $start_time = microtime(true);
 
 set_time_limit(0);
 
-require_once 'config.php';
+require_once 'config.default.php';
 
 $people = new People();
 $eligable_women_ids = $people->fetchPeopleEligableForMarriage('female');

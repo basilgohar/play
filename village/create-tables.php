@@ -1,6 +1,7 @@
 <?php
 
-require_once 'config.php';
+require_once 'config.default.php';
+require_once 'tables.php';
 
 if (null !== $db_tables) {
     foreach ($db_tables as $table_name => $table_attributes) {
