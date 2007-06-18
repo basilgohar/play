@@ -1,10 +1,19 @@
 <?php
 
-define('VILLAGE_POPULATION', 1000);
-define('VILLAGE_DISPLAY_LIMIT', 100);
+define('VILLAGE_POPULATION', 10000);
+define('VILLAGE_DISPLAY_LIMIT', 1000);
 define('VILLAGE_CONTROLLER_PATH', '/home/basil.gohar/public_html/play/village/controllers');
 define('VILLAGE_SPOUSE_MAX_MALE', 4);
 define('VILLAGE_SPOUSE_MAX_FEMALE', 1);
+define('VILLAGE_START_DATE', '1000-01-01');
+
+
+define('VILLAGE_HEARTBEAT_PEOPLE_COUNT', 40);
+//  Possible actions for the heart beat
+define('VILLAGE_HEARTBEAT_MARRIAGE', 1);
+define('VILLAGE_HEARTBEAT_CHILD_BIRTH', 2);
+define('VILLAGE_HEARTBEAT_MURDER', 3);
+define('VILLAGE_HEARTBEAT_NATURAL_DEATH', 4);
 
 $CFG = array();
 
@@ -58,7 +67,7 @@ $db_tables = array (
             'husband_id' => 'key',
             'wife_id' => 'key'
         )
-    ),    
+    ),
     'Families' => array (
         'columns' => array (
             'id' => 'integer',
@@ -71,6 +80,17 @@ $db_tables = array (
             'person_id' => 'key',
             'mother_id' => 'key',
             'father_id' => 'key'
+        )
+    ),
+    'Info' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'key' => 'string',
+            'value' => 'string'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'key' => 'key'
         )
     )
 );

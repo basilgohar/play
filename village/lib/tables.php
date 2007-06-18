@@ -74,20 +74,28 @@ class People extends Zend_Db_Table_Abstract
         )
     );
     
-    public function fetchRandomEligableForMarriage($gender)
+    public function fetchRandomPersonEligableForMarriage($gender)
     {
         switch ($gender) {
             default:
                 throw new Exception('Invalid gender "' . $gender . '" specified.');
                 break;
             case 'male':
-                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `People` `p` LEFT JOIN `Marriages` m ON `p`.`id` = `m`.`husband_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+                $marriage_field = 'husband_id';
+                $count = VILLAGE_SPOUSE_MAX_MALE;
                 break;
-            case 'female':
-                $sql = "SELECT `p`.`id`, COUNT(*) `c`, `m`.`id` mid FROM `People` `p` LEFT JOIN `Marriages` m ON `p`.`id` = `m`.`wife_id` GROUP BY `p`.`id` ORDER BY `c` ASC , RAND() LIMIT 1";
+            case 'female';
+                $marriage_field = 'wife_id';
+                $count = VILLAGE_SPOUSE_MAX_FEMALE;
                 break;
         }
-        return $this->getAdapter()->fetchAssoc($sql);        
+        $sql = "SELECT p.id FROM People p LEFT JOIN Marriages m ON m.$marriage_field = p.id WHERE gender = '$gender' GROUP BY p.id HAVING COUNT(m.id) < $count";
+        $people_ids = array_values($this->getAdapter()->fetchCol($sql));
+        if (count($people_ids) > 0) {
+            return $this->fetchRow('`id` = ' . $people_ids[mt_rand(0, count($people_ids) - 1)]);
+        } else {
+            return false;
+        }
     }
     
     public function fetchPeopleEligableForMarriage($gender)
@@ -107,4 +115,16 @@ class People extends Zend_Db_Table_Abstract
 		return $this->getAdapter()->query($sub_sql)->fetchAll(PDO::FETCH_COLUMN);
 		//return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
     }
+    
+    public function fetchOrdered()
+    {
+        $sql = "SELECT p.* FROM People p JOIN Names names_first ON names_first.id =p.name_first_id JOIN Names names_last ON names_last.id =p.name_last_id ORDER BY names_last.value, names_first.value";
+        $data = $this->getAdapter()->fetchAll($sql);
+        return;
+    }
+}
+
+class Info extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'Info';
 }
