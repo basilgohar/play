@@ -6,28 +6,10 @@ require_once 'config.default.php';
 
 set_time_limit(0);
 
-$name_ids_male = array();
-$name_ids_female = array();
-$name_ids_last = array();
-
-$names = new Names();
-
-foreach ($names->fetchAll()->toArray() as $name) {
-    switch ($name['type']) {
-        default:
-            break;
-        case 'male':
-            $name_ids_male[] = $name['id'];
-            break;
-        case 'female':
-            $name_ids_female[] = $name['id'];
-            break;
-        case 'last':
-            $name_ids_last[] = $name['id'];
-            break;
-    }
-}
-
+$name_ids_male = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'male'"));
+$name_ids_female = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'female'"));
+$name_ids_last = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'last'"));
+ 
 $names_male_count = count($name_ids_male);
 $names_female_count = count($name_ids_female);
 $names_last_count = count($name_ids_last);
