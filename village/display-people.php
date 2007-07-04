@@ -24,10 +24,15 @@ $link->setAttribute('href', 'village.css');
 $html->appendChild($body = $doc->createElement('body'));
 
 $table_data = array();
+/*
+print_r($people->fetchOrderedRowset());
+exit;
+*/
 
 if (! isset($_GET['id'])) {
     $title->nodeValue .= ' - People list';
-    $body->appendChild(create_person_table($people->fetchAll(null, null, VILLAGE_DISPLAY_LIMIT)->toArray(), 'People'));
+    //$body->appendChild(create_person_table($people->fetchAll(null, null, VILLAGE_DISPLAY_LIMIT)->toArray(), 'People'));
+    $body->appendChild(create_person_table($people->fetchOrderedRowset()->toArray(), 'People'));
 } else {
     $person = $people->fetchRow('`id` = ' . $_GET['id']);
     $title->nodeValue .= ' - ' . $person->__toString();

@@ -116,15 +116,19 @@ class People extends Zend_Db_Table_Abstract
 		//return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
     }
     
-    public function fetchOrdered()
+    public function fetchOrderedRowset()
     {
-        $sql = "SELECT p.* FROM People p JOIN Names names_first ON names_first.id =p.name_first_id JOIN Names names_last ON names_last.id =p.name_last_id ORDER BY names_last.value, names_first.value";
-        $data = $this->getAdapter()->fetchAll($sql);
-        return;
+        $sql = "SELECT p.* FROM People p JOIN (Names names_first, Names names_last) ON (names_first.id = p.name_first_id AND names_last.id = p.name_last_id) ORDER BY names_last.value, names_first.value LIMIT 100";
+        return new Zend_Db_Table_Rowset(array('table' => $this, 'data' => $this->getAdapter()->fetchAll($sql)));
     }
 }
 
 class Info extends Zend_Db_Table_Abstract
 {
     protected $_name = 'Info';
+}
+
+class Objects extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'Objects';
 }

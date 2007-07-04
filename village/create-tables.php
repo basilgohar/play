@@ -61,9 +61,3 @@ if (null !== $db_tables) {
         $db->query($sql);
     }
 }
-
-$info = new Info();
-$info_record = $info->fetchNew();
-$info_record->key = 'current_date';
-$info_record->value = VILLAGE_START_DATE;
-$info_record->save();

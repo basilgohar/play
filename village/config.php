@@ -5,7 +5,7 @@ define('VILLAGE_DISPLAY_LIMIT', 1000);
 define('VILLAGE_CONTROLLER_PATH', '/home/basil.gohar/public_html/play/village/controllers');
 define('VILLAGE_SPOUSE_MAX_MALE', 4);
 define('VILLAGE_SPOUSE_MAX_FEMALE', 1);
-define('VILLAGE_START_DATE', '1000-01-01');
+define('VILLAGE_START_DATE', date('Y-m-d H:i:s'));
 
 define('VILLAGE_HEARTBEAT_PEOPLE_COUNT', 50);
 //  Possible actions for the heart beat

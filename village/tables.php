@@ -22,6 +22,7 @@ $db_tables = array (
             'name_first_id' => 'integer',
             'name_last_id' => 'integer',
             'gender' => array('female', 'male'),
+            'money' => 'integer',
             'date_birth' => 'datetime',
             'date_death' => 'datetime'
         ),
@@ -69,6 +70,50 @@ $db_tables = array (
         'keys' => array (
             'id' => 'primary',
             'key' => 'key'
+        )
+    ),
+    'ObjectTypes' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'name' => 'string',
+            'value' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary'            
+        )
+    ),
+    'Objects' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'type_id' => 'integer',
+            'owner_id' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'type_id' => 'key',
+            'owner_id' => 'key'
+        )
+    ),
+    'PropertyTypes' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'name' => 'string',
+            'value' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary'
+        )
+    ),
+    'Properties' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'type_id' => 'integer',
+            'owner_id' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'type_id' => 'key',
+            'owner_id' => 'key'
         )
     )
 );

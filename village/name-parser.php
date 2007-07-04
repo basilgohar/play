@@ -60,4 +60,4 @@ if ('' !== $sql) {
 
 $total_time = microtime(true) - $start_time;
 
-echo 'Processed ' . $name_values_count . ' name values in ' . $total_time . ' seconds (' . ($name_values_count/$total_time) . ' records/second)' . "\n";
+//echo 'Processed ' . $name_values_count . ' name values in ' . $total_time . ' seconds (' . ($name_values_count/$total_time) . ' records/second)' . "\n";
