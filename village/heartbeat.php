@@ -57,7 +57,7 @@ while (count($random_people_data) > 0) {
 	            //*/
 	        }
 	        break;
-	        ///*
+	        /*
 	    case VILLAGE_HEARTBEAT_MURDER:
 	        if (count($random_people_data) > 0) {	            
 	            $victim = new Person(array('data' => array_pop($random_people_data), 'table' => $people, 'stored' => true));
@@ -77,7 +77,7 @@ while (count($random_people_data) > 0) {
 	        $p->setAttribute('class','death');
 	        
 	        break;
-	        //*/
+	        */
 	}
 }
 

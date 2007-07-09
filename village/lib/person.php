@@ -180,6 +180,7 @@ class Person extends Zend_Db_Table_Row
         $child = $person_table->fetchNew();
         $child->name_first_id = $name_first_id;
         $child->name_last_id = $father->name_last_id;
+        $child->money = 100;
         $child->gender = $child_gender;
         $child->date_birth = date('Y-m-d H:i:s');
         $child->date_death = '';

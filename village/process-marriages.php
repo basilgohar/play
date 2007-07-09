@@ -6,76 +6,55 @@ set_time_limit(0);
 
 require_once 'config.default.php';
 
-$people = new People();
-$eligable_women_ids = $people->fetchPeopleEligableForMarriage('female');
-$eligable_men_ids = $people->fetchPeopleEligableForMarriage('male');
+$sql_male = "SELECT p.id, COUNT(m.id) AS spouses FROM `People` p LEFT JOIN `Marriages` m ON m.husband_id = p.id WHERE p.gender = 'male' GROUP BY p.id HAVING spouses < " . VILLAGE_SPOUSE_MAX_MALE;
+$eligable_men_array = array();
+foreach ($db->query($sql_male)->fetchAll() as $eligable_man_array) {
+    $eligable_men_array[$eligable_man_array['id']] = $eligable_man_array['spouses'];
+}
+$sql_female = "SELECT p.id, COUNT(m.id) AS spouses FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' GROUP BY p.id HAVING spouses < " . VILLAGE_SPOUSE_MAX_FEMALE;
+$eligable_women_array = array();
+foreach ($db->query($sql_female)->fetchAll() as $eligable_woman_array) {
+    $eligable_women_array[$eligable_woman_array['id']] = $eligable_woman_array['spouses'];
+}
 
-$eligable_women_count = count($eligable_women_ids);
-$eligable_men_count = count($eligable_men_ids);
+$eligable_men_ids = array_keys($eligable_men_array);
+$eligable_women_ids = array_keys($eligable_women_array);
 
-shuffle($eligable_women_ids);
 shuffle($eligable_men_ids);
+shuffle($eligable_women_ids);
 
+$eligable_men_count = count($eligable_men_array);
+$eligable_women_count = count($eligable_women_array);
+
+$db->query('ALTER TABLE `Marriages` DISABLE KEYS');
 $sql_string = '';
-$sql_array = array();
 
-for ($i = 0; $i < $eligable_women_count; ++$i) {
-    $eligable_woman_id = $eligable_women_ids[$i];
-    if ($i < $eligable_men_count) {
-        $eligable_man_id = $eligable_men_ids[$i];
-    } else {
+while (count($eligable_women_ids) > 0) {
+    if (count($eligable_men_ids) <= 0) {
+        //  No more men left to marry
         break;
     }
+    
+    $eligable_woman_id = array_pop($eligable_women_ids);    
+    $eligable_man_id = array_pop($eligable_men_ids);
+    
     $values = array($eligable_man_id, $eligable_woman_id, "'" . date('Y-m-d H:i:s') . "'", "''");
+    
     if ('' === $sql_string) {
-        $sql_string = "INSERT INTO `Marriages` (`husband_id`,`wife_id`,`date_married`,`date_divorced`) VALUES ";
+        $sql_string = "INSERT INTO `Marriages` (`husband_id`,`wife_id`,`date_married`,`date_divorced`) VALUES (" . implode(',', $values) . ')';
+    } else {
+        $sql_string .= ',(' . implode(',', $values) . ')';
     }
-    $sql_string .= '(';
-    $sql_string .= implode(',', $values);
-    $sql_string .= '),';
+    
     if (strlen($sql_string) > $max_sql_string_length) {
-        $sql_array[] = substr($sql_string, 0, -1);
+        $db->query($sql_string);
         $sql_string = '';
     }
 }
 
 if ('' !== $sql_string) {
-    $sql_array[] = substr($sql_string, 0, -1);
+    $db->query($sql_string);
     $sql_string = '';
 }
 
-$db->query('ALTER TABLE `Marriages` DISABLE KEYS');
-foreach ($sql_array as $sql_string) {
-    $db->query($sql_string);
-}
 $db->query('ALTER TABLE `Marriages` ENABLE KEYS');
-
-/*
-foreach ($people->fetchAll("`gender` = 'female'", 'RAND()') as $female) {
-    //$engaged_couples[] = array('female' => $female, 'male' => $people->fetchRow("`gender` = 'male'", 'RAND()'));
-	$male = $people->fetchRow("`gender` = 'male'", 'RAND()');
-    if ($female->marryTo($male)) {
-        //echo 'Successfully married ';
-        //echo $female;
-        //echo ' to ';
-        //echo $male;
-        //echo "\n";
-    }
-	
-}
-*/
-/*
-if (count($engaged_couples) > 0) {
-    $db->beginTransaction();
-    foreach ($engaged_couples as $engaged_couple) {
-        if ($engaged_couple['female']->marryTo($engaged_couple['male'])) {
-            echo 'Successfully married ';
-            echo $engaged_couple['female'];
-            echo ' to ';
-            echo $engaged_couple['male'];
-            echo "\n";
-        }
-    }
-    $db->commit();
-}
-*/
