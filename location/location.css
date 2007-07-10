@@ -1,0 +1,40 @@
+body {
+	font-family: sans-serif;
+}
+
+.east {
+	float: left;
+}
+
+.center {
+	float: left;
+	clear: none;
+}
+
+.west {
+	float: left;
+	clear: left;
+}
+
+.north {
+	float: left;
+}
+
+.south {
+	float: left;
+}
+
+div.nav {
+	width: 150px;
+	padding: 5px;
+	background: darkslategray;
+	color: lightsteelblue;
+}
+
+div#location-nav {
+
+}
+
+div.nav:hover {
+	background: lightslategray;
+}
