@@ -1,6 +1,7 @@
 <?php
 
 define('SIDE', 100);
+$side = SIDE;
 
 require_once 'config.inc.php';
 
@@ -22,9 +23,9 @@ $db->query('ALTER TABLE `Cell` DISABLE KEYS');
 //  Since they are both data as well as counter variables, we offset them by 1
 $z = $y = $x = 0;
 
-while ($z < SIDE) {
-    while ($y < SIDE) {
-        while ($x < SIDE) {
+while ($z < $side) {
+    while ($y < $side) {
+        while ($x < $side) {
             if (strlen($sql) > $max_sql_string_length) {
                 //  The SQL string is getting too long, so flush the query
                 $db->query($sql);
