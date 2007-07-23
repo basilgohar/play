@@ -13,3 +13,13 @@ foreach ($celltypes as $celltype) {
     $sql = "INSERT INTO `Celltype` (`name`,`description`) VALUES ('" . $celltype['name'] . "','" . $celltype['description'] . "')";
     $db->query($sql);
 }
+
+for ($i = 0; $i < 255; $i++) {
+	$sql = "INSERT INTO `Integer` (`i`) VALUES ($i)";
+	$db->query($sql);
+}
+
+for ($i = ord('a'); $i <= ord('z'); $i++) {
+	$sql = "INSERT INTO `Letter` (`l`) VALUES ('" . chr($i) . "')";
+	$db->query($sql);
+}

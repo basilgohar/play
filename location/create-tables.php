@@ -47,7 +47,11 @@ if (null !== $db_tables) {
                     foreach ($attribute_values as $column_name => $key_type) {
                         switch ($key_type) {
                             default:
-                                $sql .= 'KEY `' . $column_name . '` (`' . $column_name . '`)';
+                                if (is_array($key_type)) {
+                                    $sql .= 'KEY `' . $column_name. '` (`' . implode('`,`', $key_type) . '`)';
+                                } else {
+                                    $sql .= 'KEY `' . $column_name . '` (`' . $column_name . '`)';
+                                }
                                 break;
                             case 'primary':
                                 $sql .= 'PRIMARY KEY (`' . $column_name . '`)';

@@ -1,6 +1,6 @@
 <?php
 
-define('SIDE', 100);
+define('SIDE', 250);
 $side = SIDE;
 
 require_once 'config.inc.php';

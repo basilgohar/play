@@ -24,7 +24,12 @@ $db_tables = array (
         ),
         'keys' => array (
             'id' => 'primary',
-            'type_id' => 'key'
+            'type_id' => 'key',
+            'coord' => array (
+                'coord_x',
+                'coord_y',
+		'coord_z'
+            )
         )
     ),
     'ObjectCell' => array (
@@ -37,6 +42,16 @@ $db_tables = array (
             'id' => 'primary',
             'object_id' => 'key',
             'cell_id' => 'key'
+        )
+    ),
+    'Integer' => array (
+	'columns' => array (
+            'i' => 'integer'
+        )
+    ),
+    'Letter' => array (
+        'columns' => array (
+            'l' => 'string'
         )
     )
 );
