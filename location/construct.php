@@ -1,9 +1,12 @@
 <?php
 
-define('SIDE', 250);
-$side = SIDE;
+require_once 'config.php';
 
-require_once 'config.inc.php';
+if (defined('SIDE')) {
+    $side = SIDE;
+} else {
+    $side = 100;
+}
 
 $count = 0;
 $queries = 0;
