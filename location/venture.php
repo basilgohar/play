@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.inc.php';
+require_once 'config.php';
 
 if (null !== $_GET['x'] && null !== $_GET['y'] && null !== $_GET['z']) {
     $coords = array('coord_x' => $_GET['x'], 'coord_y' => $_GET['y'], 'coord_z' => $_GET['z']);

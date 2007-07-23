@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.default.php';
+require_once 'config.php';
 require_once 'tables.php';
 
 //  Destroy tables

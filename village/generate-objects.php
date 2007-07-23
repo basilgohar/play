@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.default.php';
+require_once 'config.php';
 
 $object_types = array (
     array (

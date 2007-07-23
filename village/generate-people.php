@@ -2,7 +2,7 @@
 
 $start_time = microtime(true);
 
-require_once 'config.default.php';
+require_once 'config.php';
 
 set_time_limit(0);
 
