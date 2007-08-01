@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.default.php';
+require_once 'config.php';
 
 $current_date = $db->fetchOne("SELECT `value` FROM `Info` WHERE `key` = 'current_date'");
 
