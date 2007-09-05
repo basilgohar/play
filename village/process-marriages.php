@@ -4,7 +4,7 @@ $start_time = microtime(true);
 
 set_time_limit(0);
 
-require_once 'config.default.php';
+require_once 'config.php';
 
 $sql_male = "SELECT p.id, COUNT(m.id) AS spouses FROM `People` p LEFT JOIN `Marriages` m ON m.husband_id = p.id WHERE p.gender = 'male' GROUP BY p.id HAVING spouses < " . VILLAGE_SPOUSE_MAX_MALE;
 $eligable_men_array = array();
