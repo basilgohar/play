@@ -18,7 +18,7 @@ function create_person_row($person_id)
     $tr = $doc->createElement('tr');
     $tr->appendChild($td_name = $doc->createElement('td'));
     $td_name->appendChild($a = $doc->createElement('a', $person_name));
-    $a->setAttribute('href', '?id=' . $person->id);        
+    $a->setAttribute('href', 'index.php?subject=person&subject_id=' . $person->id);        
     $tr->appendChild($td_gender = $doc->createElement('td', $person_gender));
     $tr->appendChild($td_spouse_count = $doc->createElement('td', $person_spouse_count));
     $tr->appendChild($td_children_count = $doc->createElement('td', $person_child_count));
@@ -46,8 +46,7 @@ function create_person_table(array $people, $caption = 'People')
     foreach ($people as $person) {
         $table->appendChild(create_person_row($person['id']));
     }
-
-    $table->setAttribute('style', 'margin: auto');
+        
     return $table;
 }
 
@@ -58,9 +57,8 @@ function create_table_caption($text = '', $offset = 0)
     $caption = $doc->createElement('caption');
     
     $caption->appendChild($a_caption_text = $doc->createElement('a', $text));
-    $a_caption_text->setAttribute('href', 'display-people.php');
+    $a_caption_text->setAttribute('href', 'index.php?subject=person');
 
-    $caption->setAttribute('style', 'margin: auto');
     return $caption;    
     
 }
