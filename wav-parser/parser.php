@@ -27,29 +27,34 @@ $sample_count = 0;
 
 $clipping = false;
 
-//$histogram = array_fill_keys(range(-(pow(2, 15)), pow(2, 15) - 1), 0);
+//$histogram = array();
 
-$histogram = array();
+$clipped_samples = array();
 
 while ($i < $length) {
     $current_sample_raw = substr($file, $i, 2);
     $current_sample_array = unpack('s', $current_sample_raw);
     $current_sample = $current_sample_array[1];
     
+    /*
     if (! isset($histogram[$current_sample])) {
         $histogram[$current_sample] = 0;
     }
     
     ++$histogram[$current_sample];
+	*/
     
-    if (abs($last_sample - $current_sample) > $clip_difference) {
+    if (abs($last_sample - $current_sample) > $clip_difference) {        
         if (false === $clipping) {
             $clipping = true;
             echo 'Possibly-clipped segment detected' . "\n";
+            $clipped_sample_segment = array();
         }
-        echo "\t" . $sample_count - 1 . "\t" . $last_sample . "\n";
+        $clipped_sample_segment[$sample_count - 1] = $last_sample; 
+        echo "\t" . ($sample_count - 1) . "\t" . $last_sample . "\n";
     } else {
         if (true === $clipping) {
+            $clipped_samples[] = $clipped_sample_segment;
             $clipping = false;
             echo 'Possibly-clipped segment concluded' . "\n";
         }
@@ -60,7 +65,10 @@ while ($i < $length) {
     $i += 2;
     ++$sample_count;
 }
-
+/*
 ksort($histogram);
 
 print_r($histogram);
+*/
+
+print_r($clipped_samples);
