@@ -2,8 +2,6 @@
 
 require_once 'lib.php';
 
-ini_set('memory_limit', '1G');
-
 define('FILENAME', 'Waleed Basyouni - Conquer Your Fear - Khutbah - Raw - trimmed.wav');
 
 $clip_difference = 60000;
@@ -20,7 +18,9 @@ $length = strlen($file);
 
 echo 'File is ' . number_format($length) . ' bytes long' . "\n";
 
-$i = strpos($file, 'data') + 4;
+$data_offset = strpos($file, 'data') + 4;
+
+$i = $data_offset;
 
 $last_sample = 0;
 $sample_count = 0;
@@ -32,9 +32,8 @@ $clipping = false;
 $clipped_samples = array();
 
 while ($i < $length) {
-    $current_sample_raw = substr($file, $i, 2);
-    $current_sample_array = unpack('s', $current_sample_raw);
-    $current_sample = $current_sample_array[1];
+    
+    $current_sample = wave_extract_sample($file, $i);
     
     /*
     if (! isset($histogram[$current_sample])) {
@@ -43,8 +42,19 @@ while ($i < $length) {
     
     ++$histogram[$current_sample];
 	*/
+	
+	//  Check & set clipping state
+	
+	if (false === $clipping) {
+	    if (abs($last_sample - $current_sample) > $clip_difference) {
+	        $clipping = true;
+	    }
+	} else {
+	    
+	}
     
-    if (abs($last_sample - $current_sample) > $clip_difference) {        
+	/*
+    if () {
         if (false === $clipping) {
             $clipping = true;
             echo 'Possibly-clipped segment detected' . "\n";
@@ -54,21 +64,37 @@ while ($i < $length) {
         echo "\t" . ($sample_count - 1) . "\t" . $last_sample . "\n";
     } else {
         if (true === $clipping) {
+            $clipped_sample_segment[$sample_count - 1] = $last_sample;
             $clipped_samples[] = $clipped_sample_segment;
             $clipping = false;
             echo 'Possibly-clipped segment concluded' . "\n";
         }
     }
+	*/
     
     $last_sample = $current_sample;
     
     $i += 2;
     ++$sample_count;
 }
+
 /*
 ksort($histogram);
 
 print_r($histogram);
 */
 
-print_r($clipped_samples);
+foreach ($clipped_samples as $clipped_sample_segment) {
+    //print_r($clipped_sample_segment);
+    $first_sample_in_segment = current($clipped_sample_segment);
+    $packed_form = pack('s', $first_sample_in_segment);
+    //echo 'First sample: ' . $first_sample_in_segment . "\n";
+    
+    foreach ($clipped_sample_segment as $sample_position => $sample_value) {        
+        $file_position_index = $data_offset + $sample_position * 2;
+        $file[$file_position_index] = $packed_form[0];
+        $file[$file_position_index + 1] = $packed_form[1];
+    }
+}
+
+file_put_contents(FILENAME . '.parsed', $file);
