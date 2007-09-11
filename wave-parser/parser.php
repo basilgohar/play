@@ -32,8 +32,13 @@ $clipping = false;
 $clipped_samples = array();
 
 while ($i < $length) {
+    //echo $i . "\n";
     
-    $current_sample = wave_extract_sample($file, $i);
+    //$current_sample = wave_extract_sample($file, $i);
+    
+    $current_sample = current(unpack('s', substr($file, $i, 2)));
+    
+    //$current_sample = wave_extract_sample('file', $i);
     
     /*
     if (! isset($histogram[$current_sample])) {
@@ -42,19 +47,8 @@ while ($i < $length) {
     
     ++$histogram[$current_sample];
 	*/
-	
-	//  Check & set clipping state
-	
-	if (false === $clipping) {
-	    if (abs($last_sample - $current_sample) > $clip_difference) {
-	        $clipping = true;
-	    }
-	} else {
-	    
-	}
-    
-	/*
-    if () {
+
+	if (abs($last_sample - $current_sample) > $clip_difference) {
         if (false === $clipping) {
             $clipping = true;
             echo 'Possibly-clipped segment detected' . "\n";
@@ -65,12 +59,14 @@ while ($i < $length) {
     } else {
         if (true === $clipping) {
             $clipped_sample_segment[$sample_count - 1] = $last_sample;
-            $clipped_samples[] = $clipped_sample_segment;
-            $clipping = false;
-            echo 'Possibly-clipped segment concluded' . "\n";
+            if (! (abs($current_sample) > CLIP_THRESHHOLD)) {
+                //  Clipped segment appears to have concluded
+                $clipped_samples[] = $clipped_sample_segment;
+                $clipping = false;
+                echo 'Possibly-clipped segment concluded' . "\n";
+            }
         }
-    }
-	*/
+    }	
     
     $last_sample = $current_sample;
     

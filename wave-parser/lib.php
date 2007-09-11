@@ -27,7 +27,14 @@ function wave_to_array(&$file)
     return $wave_array;
 }
 
+/**
+ * This function does not perform very well at ALL
+ *
+ * @param unknown_type $file
+ * @param unknown_type $offset
+ * @return unknown
+ */
 function wave_extract_sample(&$file, $offset)
 {
-    return current(pack('s', substr($file, $offset, 2)));
+    return current(unpack('s', substr($file, $offset, 2)));
 }
