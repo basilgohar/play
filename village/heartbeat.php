@@ -87,7 +87,7 @@ $db->update('Info', array('value' => date('Y-m-d H:i:s', (strtotime($current_dat
 
 $total_time = microtime(true) - $start_time;
 
-$time_completed_string = 'Rendered page in ' . $total_time . ' seconds';
+$time_completed_string = 'Heartbeat completed in ' . $total_time . ' seconds';
 
 /*
 $body->appendChild($doc->createElement('p', 'Rendered page in ' . $total_time . ' seconds'));
