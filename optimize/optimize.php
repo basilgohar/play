@@ -44,8 +44,10 @@ switch ($argv[1]) {
         break;
 }
 
-$total_time = round(microtime(true) - $start_time, 2);
+$total_time = microtime(true) - $start_time;
 
 $iterations_per_second = round($iterations/$total_time);
 
-echo "Processed $iterations iterations in $total_time seconds ($iterations_per_second iterations/second)\n";
+$total_time_rounded = round($total_time, 2);
+
+echo "Processed $iterations iterations in $total_time_rounded seconds ($iterations_per_second iterations/second)\n";
