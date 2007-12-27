@@ -17,7 +17,7 @@ if (! isset($argv[2])) {
 } else if (! is_numeric($argv[2])) {
     exit('Invalid value "' . $argv[2] . '" for iterations' . "\n");
 } else {
-    $iterations = $argv[2];
+    $iterations = (int) $argv[2];
 }
 
 if (! isset($argv[3])) {
@@ -39,8 +39,13 @@ switch ($argv[1]) {
     case 'isset':
         require_once 'isset.php';
         break; 
+    case 'strlen':
+        require_once 'strlen.php';
+        break;
 }
 
-$total_time = microtime(true) - $start_time;
+$total_time = round(microtime(true) - $start_time, 2);
 
-echo 'Processed ' . $iterations . ' iterations in ' . $total_time . ' seconds (' . ($iterations/$total_time) . ' iterations/second)' . "\n";
+$iterations_per_second = round($iterations/$total_time);
+
+echo "Processed $iterations iterations in $total_time seconds ($iterations_per_second iterations/second)\n";
