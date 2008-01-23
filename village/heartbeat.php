@@ -4,6 +4,7 @@ require_once 'config.php';
 
 $current_date = $db->fetchOne("SELECT `value` FROM `Info` WHERE `key` = 'current_date'");
 echo 'Date: ' . $current_date;
+
 /*
 $doctype = DOMImplementation::createDocumentType('html', '-//W3C//DTD XHTML 1.0 Strict//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd');
 
@@ -83,7 +84,9 @@ while (count($random_people_data) > 0) {
 	}
 }
 
-$db->update('Info', array('value' => date('Y-m-d H:i:s', (strtotime($current_date) + 86400))), "`key` = 'current_date'");
+//$db->update('Info', array('value' => date('Y-m-d H:i:s', (strtotime($current_date) + 86400))), "`key` = 'current_date'");
+$sql = "UPDATE `Info` SET `value` = ADDDATE(`value`, 1) WHERE `key` = 'current_date'";
+$db->query($sql);
 
 $total_time = microtime(true) - $start_time;
 
