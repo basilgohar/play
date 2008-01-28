@@ -23,11 +23,13 @@ $db->query('ALTER TABLE `People` DISABLE KEYS');
 
 $sql = '';
 $village_population = VILLAGE_POPULATION;
-for ($i = 0; $i < $village_population; ++$i) {
-    0 === mt_rand(0,1) ? $gender = 'male' : $gender = 'female';
+$i = 0;
+while ($i < $village_population) {
+    ++$i;
+    0 === mt_rand(0,3) ? $gender = 'male' : $gender = 'female';
     'male' === $gender ? $name_first_id = $name_ids_male[mt_rand(0, $names_male_count - 1)] : $name_first_id = $name_ids_female[mt_rand(0, $names_female_count - 1)];
     $name_last_id = $name_ids_last[mt_rand(0, $names_last_count - 1)];
-	$person_array = array($name_first_id, $name_last_id, "'" . $now . "'", 0, "'" . $gender . "'");
+	$person_array = array($name_first_id, $name_last_id, "'$now'", 0, "'$gender'");
 	if ('' === $sql) {
 		$sql = "INSERT INTO `People` (`name_first_id`,`name_last_id`,`date_birth`,`date_death`,`gender`) VALUES ";
 	}
