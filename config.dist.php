@@ -10,6 +10,8 @@ define('ZF_PATH', '/usr/share/zend-framework/library');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . ZF_PATH);
 
+define('CPUS', 1);
+
 $CFG['db']['host'] = 'localhost';
 $CFG['db']['username'] = 'play';
 $CFG['db']['password'] = 'play';
