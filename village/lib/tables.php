@@ -132,3 +132,8 @@ class Objects extends Zend_Db_Table_Abstract
 {
     protected $_name = 'Objects';
 }
+
+class Villages extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'Villages';
+}

@@ -115,5 +115,37 @@ $db_tables = array (
             'type_id' => 'key',
             'owner_id' => 'key'
         )
+    ),
+    'Villages' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'name' => 'string'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'name' => 'key'
+        )
+    ),
+    'Dwellings' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'type_id' => 'integer',
+            'owner_id' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'type_id' => 'key',
+            'owner_id' => 'key'
+        )
+    ),
+    'DwellingTypes' => array (
+        'columns' => array (
+            'id' => 'integer',
+            'name' => 'string'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'name' => 'key'
+        )
     )
 );

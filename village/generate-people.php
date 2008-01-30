@@ -2,6 +2,16 @@
 
 $start_time = microtime(true);
 
+$pid = pcntl_fork();
+
+if ($pid == -1) {
+     die('could not fork');
+} else if ($pid) {
+     // we are the parent
+} else {
+     // we are the child
+}
+
 require_once 'config.php';
 
 set_time_limit(0);
@@ -22,8 +32,10 @@ $db->query('TRUNCATE TABLE `People`');
 $db->query('ALTER TABLE `People` DISABLE KEYS');
 
 $sql = '';
-$village_population = VILLAGE_POPULATION;
+$village_population = VILLAGE_POPULATION/CPUS;
+//$village_population = VILLAGE_POPULATION;
 $i = 0;
+
 while ($i < $village_population) {
     ++$i;
     0 === mt_rand(0,3) ? $gender = 'male' : $gender = 'female';
@@ -49,7 +61,19 @@ if ('' !== $sql) {
 	$db->query($sql);	
 	$sql = '';
 }
-$db->query('ALTER TABLE `People` ENABLE KEYS');
+
+if (isset($pid)) {
+    //  Handle the keys differently for multi-processing
+    if ($pid > 0) {
+        //  Wait for all child processes to exit
+        pcntl_wait($status);
+        //  Only enable keys from the main process, once all others are done
+        $db->query('ALTER TABLE `People` ENABLE KEYS');
+    }    
+} else {
+    //  Enable keys at the end
+    $db->query('ALTER TABLE `People` ENABLE KEYS');
+}
 
 $total_time = microtime(true) - $start_time;
 echo 'Processed ' . $i . ' records in  ' . $total_time . ' seconds (' . $i/$total_time . ' records per second)' . "\n";

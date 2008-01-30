@@ -14,6 +14,8 @@ define('VILLAGE_HEARTBEAT_CHILD_BIRTH', 2);
 define('VILLAGE_HEARTBEAT_MURDER', 3);
 define('VILLAGE_HEARTBEAT_NATURAL_DEATH', 4);
 
+define('VILLAGE_CITY_COUNT', 10000);
+
 $CFG = array();
 
 $CFG['db']['dbname'] = 'play';
