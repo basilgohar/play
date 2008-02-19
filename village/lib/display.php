@@ -1,5 +1,10 @@
 <?php
 
+define('LEFTWARDS_ARROW', 8592);
+define('RIGHTWARDS_ARROW', 8594);
+define('LEFTWARDS_ARROW_TO_BAR', 8676);
+define('RIGHTWARDS_ARROW_TO_BAR', 8677);
+
 function create_person_row($person_id)
 {
     global $doc;
@@ -56,7 +61,12 @@ function create_table_caption($text = '', $offset = 0)
     
     $caption = $doc->createElement('caption');
     
+    $caption->appendChild($beginning = $doc->createElement('a', '&#' . LEFTWARDS_ARROW_TO_BAR . ';'));
+    $caption->appendChild($back = $doc->createElement('a', '&#' . LEFTWARDS_ARROW . ';'));    
     $caption->appendChild($a_caption_text = $doc->createElement('a', $text));
+    $caption->appendChild($forward = $doc->createElement('a', '&#' . RIGHTWARDS_ARROW . ';'));
+    $caption->appendChild($end = $doc->createElement('a', '&#' . RIGHTWARDS_ARROW_TO_BAR . ';'));
+    
     $a_caption_text->setAttribute('href', 'index.php?subject=person');
 
     return $caption;    

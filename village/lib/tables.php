@@ -53,7 +53,11 @@ class Names extends Zend_Db_Table_Abstract
             return false;
         }
         
-        return $this->fetchRow("`type` = '$type'", 'RAND()');
+        $name_ids = $this->getAdapter()->fetchCol("SELECT `id` FROM `Names` WHERE `type` = '$type'");
+        
+        $random_name_id = $name_ids[mt_rand(0, count($name_ids) - 1)];
+        
+        return $this->fetchRow("`id` = $random_name_id");
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 $start_time = microtime(true);
-
+/*
 $pid = pcntl_fork();
 
 if ($pid == -1) {
@@ -11,7 +11,7 @@ if ($pid == -1) {
 } else {
      // we are the child
 }
-
+*/
 require_once 'config.php';
 
 set_time_limit(0);
@@ -32,8 +32,8 @@ $db->query('TRUNCATE TABLE `People`');
 $db->query('ALTER TABLE `People` DISABLE KEYS');
 
 $sql = '';
-$village_population = VILLAGE_POPULATION/CPUS;
-//$village_population = VILLAGE_POPULATION;
+//$village_population = VILLAGE_POPULATION/CPUS;
+$village_population = VILLAGE_POPULATION;
 $i = 0;
 
 while ($i < $village_population) {

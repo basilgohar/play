@@ -1,5 +1,6 @@
 <?php
 
+/*
 $pid = pcntl_fork();
 
 if ($pid == -1) {
@@ -9,8 +10,11 @@ if ($pid == -1) {
 } else {
      // we are the child
 }
+*/
 
 require_once 'config.php';
+
+$db->getProfiler()->setEnabled(true);
 
 $current_date = $db->fetchOne("SELECT `value` FROM `Info` WHERE `key` = 'current_date'");
 echo "Date: $current_date\n";
@@ -37,6 +41,7 @@ foreach ($actions as $action) {
     $action_results[$action] = 0;
 }
 
+/*
 $offset = floor($people_ids_count/2);
 
 if ($pid) {
@@ -46,6 +51,7 @@ if ($pid) {
 }
 
 $people_ids_count = count($people_ids);
+*/
 
 echo "# of people: $people_ids_count\n";
 
@@ -90,3 +96,23 @@ foreach ($people_ids as $person_id) {
 foreach ($action_results as $action => $results_count) {
     echo "{$action}s: $results_count\n";
 }
+
+$profiler = $db->getProfiler();
+
+$totalTime    = $profiler->getTotalElapsedSecs();
+$queryCount   = $profiler->getTotalNumQueries();
+$longestTime  = 0;
+$longestQuery = null;
+
+foreach ($profiler->getQueryProfiles() as $query) {
+    if ($query->getElapsedSecs() > $longestTime) {
+        $longestTime  = $query->getElapsedSecs();
+        $longestQuery = $query->getQuery();
+    }
+}
+
+echo 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
+echo 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
+echo 'Queries per second: ' . $queryCount / $totalTime . "\n";
+echo 'Longest query length: ' . $longestTime . "\n";
+echo "Longest query: \n" . $longestQuery . "\n";

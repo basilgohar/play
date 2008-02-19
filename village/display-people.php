@@ -24,10 +24,6 @@ $link->setAttribute('href', 'village.css');
 $html->appendChild($body = $doc->createElement('body'));
 
 $table_data = array();
-/*
-print_r($people->fetchOrderedRowset());
-exit;
-*/
 
 if (! isset($_GET['id'])) {
     $title->nodeValue .= ' - People list';
