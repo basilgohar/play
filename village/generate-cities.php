@@ -6,13 +6,22 @@ $name_ids = array_values($db->fetchCol("SELECT `id` FROM `Names`"));
 
 $prefixes = array(
     'New ',
-    'Old '
+    'Old ',
+    'North ',
+    'South ',
+    'East ',
+    'West '
 );
 
 $suffixes = array(
     'shire',
     'ton',
-    'town'
+    'town',
+    'ford',
+    'ville',
+    ' City',
+    ' Valley',
+    ' Heights'
 );
 
 $village_city_count = VILLAGE_CITY_COUNT;

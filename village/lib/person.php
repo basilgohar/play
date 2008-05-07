@@ -16,40 +16,9 @@ class Person extends Zend_Db_Table_Row
     protected $name_first = null;
     protected $name_last = null;
     
-    public function getNameValue($type)
-    {
-        switch ($type) {
-            default:
-                throw new Exception('Invalid name type "' . $type . '" specified');
-                break;
-            case 'first':
-                $name = $this->findParentRow('Names', 'FirstName');
-                break;
-            case 'last':
-                $name = $this->findParentRow('Names', 'LastName');
-                break;
-        }
-        return $name->value;
-    }
-    
-    public function getNameFirst()
-    {
-        return $this->getNameValue('first');
-    }
-        
-    public function getNameLast()
-    {
-        return $this->getNameValue('last');
-    }
-
-    public function getFullName()
-    {
-        return $this->getNameFirst() . ' ' . $this->getNameLast();
-    }
-    
     public function __toString()
     {
-        return $this->getFullName() . ' (' . $this->id . ')';
+        return "$this->name_first $this->name_last ($this->id)";
     }
     
     public function isEligableForMarriage()
@@ -173,13 +142,13 @@ class Person extends Zend_Db_Table_Row
         
         $name_table = new Names();
         
-        $name_first_id = $name_table->fetchRandom($child_gender)->id;        
+        $name_first = $name_table->fetchRandom($child_gender)->value;        
         
         $person_table = new People();
         
         $child = $person_table->fetchNew();
-        $child->name_first_id = $name_first_id;
-        $child->name_last_id = $father->name_last_id;
+        $child->name_first = $name_first;
+        $child->name_last = $father->name_last;
         $child->money = 100;
         $child->gender = $child_gender;
         $child->money = 100;

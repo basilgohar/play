@@ -2,8 +2,10 @@
 
 $subjects = array('person' => 'Person');
 
+/*
 $body->appendChild($p = $doc->createElement('p'));
 $p->nodeValue = 'Choose a type of subject upon which to act';
+*/
 
 $body->appendChild($ul = $doc->createElement('ul'));
 

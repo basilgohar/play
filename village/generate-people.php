@@ -16,13 +16,13 @@ require_once 'config.php';
 
 set_time_limit(0);
 
-$name_ids_male = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'male'"));
-$name_ids_female = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'female'"));
-$name_ids_last = array_values($db->fetchCol("SELECT `id` FROM `Names` WHERE `type` = 'last'"));
+$names_male = array_values($db->fetchCol("SELECT `value` FROM `Names` WHERE `type` = 'male'"));
+$names_female = array_values($db->fetchCol("SELECT `value` FROM `Names` WHERE `type` = 'female'"));
+$names_last = array_values($db->fetchCol("SELECT `value` FROM `Names` WHERE `type` = 'last'"));
  
-$names_male_count = count($name_ids_male);
-$names_female_count = count($name_ids_female);
-$names_last_count = count($name_ids_last);
+$names_male_count = count($names_male);
+$names_female_count = count($names_female);
+$names_last_count = count($names_last);
 
 $genders = array('male', 'female');
 
@@ -39,15 +39,15 @@ $i = 0;
 while ($i < $village_population) {
     ++$i;
     0 === mt_rand(0,3) ? $gender = 'male' : $gender = 'female';
-    'male' === $gender ? $name_first_id = $name_ids_male[mt_rand(0, $names_male_count - 1)] : $name_first_id = $name_ids_female[mt_rand(0, $names_female_count - 1)];
-    $name_last_id = $name_ids_last[mt_rand(0, $names_last_count - 1)];
-	$person_array = array($name_first_id, $name_last_id, "'$now'", 0, "'$gender'");
+    'male' === $gender ? $name_first = $names_male[mt_rand(0, $names_male_count - 1)] : $name_first = $names_female[mt_rand(0, $names_female_count - 1)];
+    $name_last = $names_last[mt_rand(0, $names_last_count - 1)];
+	$person_array = array($name_first, $name_last, $now, 0, $gender);
 	if ('' === $sql) {
-		$sql = "INSERT INTO `People` (`name_first_id`,`name_last_id`,`date_birth`,`date_death`,`gender`) VALUES ";
+		$sql = "INSERT INTO `People` (`name_first`,`name_last`,`date_birth`,`date_death`,`gender`) VALUES ";
 	}
-	$sql .= '(';
-	$sql .= implode(',', $person_array);
-	$sql .= '),';
+	$sql .= "('";
+	$sql .= implode("','", $person_array);
+	$sql .= "'),";
     if (isset($sql{$max_sql_string_length})) {
         $sql = substr($sql, 0, -1);
         $db->query($sql);

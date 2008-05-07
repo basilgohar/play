@@ -19,8 +19,8 @@ $db_tables = array (
     'People' => array (
         'columns' => array (
             'id' => 'integer',
-            'name_first_id' => 'integer',
-            'name_last_id' => 'integer',
+            'name_first' => 'string',
+            'name_last' => 'string',
             'gender' => array('female', 'male'),
             'money' => 'integer',
             'date_birth' => 'datetime',
@@ -28,10 +28,8 @@ $db_tables = array (
         ),
         'keys' => array (
             'id' => 'primary',
-            'name_first_id' => 'key',
-            'name_last_id' => 'key',
             'gender' => 'key'
-        )    
+        )
     ),
     'Marriages' => array (
         'columns' => array (

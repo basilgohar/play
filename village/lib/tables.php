@@ -65,18 +65,6 @@ class People extends Zend_Db_Table_Abstract
 {
     protected $_rowClass = 'Person';
     protected $_dependentTables = array('Families', 'Marriages');
-    protected $_referenceMap = array(
-        'FirstName' => array(
-            'columns'		=> array('name_first_id'),
-            'refTableClass'	=> 'Names',
-            'refColumns'	=> array('id')
-        ),
-        'LastName' => array(
-            'columns'		=> array('name_last_id'),
-            'refTableClass'	=> 'Names',
-            'refColumns'	=> array('id')
-        )
-    );
     
     public function fetchRandomPersonEligableForMarriage($gender)
     {
@@ -93,10 +81,11 @@ class People extends Zend_Db_Table_Abstract
                 $count = VILLAGE_SPOUSE_MAX_FEMALE;
                 break;
         }
-        $sql = "SELECT p.id FROM People p LEFT JOIN Marriages m ON m.$marriage_field = p.id WHERE gender = '$gender' GROUP BY p.id HAVING COUNT(m.id) < $count";
+        $sql = "SELECT p.id FROM People p LEFT JOIN Marriages m ON m.$marriage_field = p.id WHERE gender = '$gender' GROUP BY p.id HAVING COUNT(m.id) < $count ORDER BY RAND() LIMIT 1";
         $people_ids = array_values($this->getAdapter()->fetchCol($sql));
         if (count($people_ids) > 0) {
-            return $this->fetchRow('`id` = ' . $people_ids[mt_rand(0, count($people_ids) - 1)]);
+            $person_id = current($people_ids);
+            return $this->fetchRow("`id` = $person_id");
         } else {
             return false;
         }
@@ -120,9 +109,9 @@ class People extends Zend_Db_Table_Abstract
 		//return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
     }
     
-    public function fetchOrderedRowset()
+    public function fetchOrderedRowset($limit = 1000, $offset = 0)
     {
-        $sql = "SELECT p.* FROM People p JOIN (Names names_first, Names names_last) ON (names_first.id = p.name_first_id AND names_last.id = p.name_last_id) ORDER BY names_last.value, names_first.value LIMIT 100";
+        $sql = "SELECT * FROM People ORDER BY name_last, name_first LIMIT $offset, $limit";
         return new Zend_Db_Table_Rowset(array('table' => $this, 'data' => $this->getAdapter()->fetchAll($sql)));
     }
 }
