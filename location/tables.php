@@ -18,17 +18,15 @@ $db_tables = array (
         'columns' => array (
             'id' => 'integer',
             'type_id' => 'integer',
-            'coord_x' => 'integer',
-            'coord_y' => 'integer',
-            'coord_z' => 'integer'
+            'coord_x' => 'sinteger',
+            'coord_y' => 'sinteger'
         ),
         'keys' => array (
             'id' => 'primary',
             'type_id' => 'key',
             'coord' => array (
                 'coord_x',
-                'coord_y',
-		'coord_z'
+                'coord_y'
             )
         )
     ),

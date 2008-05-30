@@ -17,8 +17,16 @@ if (null !== $db_tables) {
 	                            default:
 	                                throw new Exception('Unknown column nature: ' . $column_nature);
 	                                break;
+                                case 'sinteger':
+                                    // break;
 	                            case 'integer':
-	                                $sql .= '`' . $column_name . '` int(10) unsigned not null';
+	                                $sql .= "`$column_name`";
+                                    if ('sinteger' === $column_nature) {
+                                        $sql .= ' int(11)';
+                                    } else {
+                                        $sql .= ' int(10) unsigned';
+                                    }
+                                    $sql .= ' not null';
 	                                if ('id' === $column_name) {
 	                                    $sql .= ' auto_increment';
 	                                } else {

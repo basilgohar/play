@@ -1,5 +1,6 @@
 <?php
 
+/*
 function location_get_nav()
 {
     global $doc;
@@ -29,4 +30,23 @@ function location_get_nav()
     $se->setAttribute('class', 'nav south east');
 	
 	return $main;
+}
+*/
+
+function location_get_nav_block()
+{
+    global $doc;
+    
+    $main = $doc->createElement('div');
+    $main->setAttribute('id', 'location-matrix');
+    
+    $matrix = array();
+    
+    for ($y = 2; $y > -3; --$y) {
+        $main->appendChild($row = $doc->createElement('div'));
+        for ($x = -2; $x < 3; ++$x) {
+            $row->appendChild($cell = $doc->createElement('div'));
+            $cell->setAttribute('id', "location-cell-$x-$y");
+        }
+    }
 }
