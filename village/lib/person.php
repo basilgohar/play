@@ -73,7 +73,12 @@ class Person extends Zend_Db_Table_Row
         $marriage->date_married = date('Y-m-d');
         $marriage->date_divorced = '';
         
-        return $marriage->save();
+        if ($marriage->save()) {
+            $people_marriage_count = new PeopleMarriageCount();
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public function isMarried()
@@ -108,7 +113,12 @@ class Person extends Zend_Db_Table_Row
     
     public function getSpouseCount()
     {
-        return count($this->getSpouses());
+        //return count($this->getSpouses());
+        if ($count = $this->db->fetchCol("SELECT `count` FROM `PeopleMarriageCount` WHERE `person_id` = $this->id LIMIT 1")) {
+            return (int) $count;
+        } else {
+            return 0;
+        }
     }
 
     public function getSpouses()

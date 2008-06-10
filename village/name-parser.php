@@ -3,17 +3,18 @@
 $start_time = microtime(true);
 
 require_once 'config.php';
-
+/*
 define('FILE_NAME_MALE', 'dist.male.first');
 define('FILE_NAME_FEMALE', 'dist.female.first');
 define('FILE_NAME_LAST', 'dist.all.last');
 
 $types = array('male' => FILE_NAME_MALE, 'female' => FILE_NAME_FEMALE, 'last' => FILE_NAME_LAST);
-
-$names = new Names();
+*/
+//$names_table = new Names();
 
 $db->query('TRUNCATE TABLE `Names`');
 
+/*
 $values_array = array();
 
 foreach ($types as $type => $filename) {
@@ -36,7 +37,30 @@ foreach (array_keys($values_array) as $type) {
 $sql = '';
 $name_values_count = 0;
 
+//print_r($values_array);
+
+$names_array_string_php = '';
+
+$names_array_string_php .= "<?php 
+\$names = array(";
+
 foreach ($values_array as $type => $values) {
+    $names_array_string_php .= "\n\t'$type' => array('" . implode("','", $values) . "'),";
+}
+
+$names_array_string_php = substr($names_array_string_php, 0, -1);
+$names_array_string_php .= "\n);\n";
+
+echo $names_array_string_php;
+
+exit;
+*/
+require_once 'names_array.php';
+
+$sql = '';
+$name_values_count = 0;
+
+foreach ($names as $type => $values) {
 	foreach ($values as $value) {
 		++$name_values_count;
 		if ('' === $sql) {

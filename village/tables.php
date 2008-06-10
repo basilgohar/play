@@ -145,5 +145,16 @@ $db_tables = array (
             'id' => 'primary',
             'name' => 'key'
         )
+    ),
+    'PeopleMarriageCount' => array(
+        'columns' => array (
+            'id' => 'integer',
+            'person_id' => 'integer',
+            'count' => 'integer'
+        ),
+        'keys' => array (
+            'id' => 'primary',
+            'person_id' => 'key'
+        )
     )
 );

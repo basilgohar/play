@@ -130,3 +130,8 @@ class Villages extends Zend_Db_Table_Abstract
 {
     protected $_name = 'Villages';
 }
+
+class PeopleMarriageCount extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'PeopleMarriageCount';
+}
