@@ -14,11 +14,11 @@ $random_paragraph = '';
 $name = '';
 
 for( $i = 0; $i < 30; $i++ ) {
-	$name = $name.' '.$text->GenerateWord();
+    $name = $name.' '.$text->GenerateWord();
 }
 
 for( $i = 0; $i < 20000; $i++ ) {
-	$random_paragraph = $random_paragraph.' '.$text->GenerateWord();
+    $random_paragraph = $random_paragraph.' '.$text->GenerateWord();
 }
 
 //echo $random_paragraph;
@@ -26,6 +26,6 @@ for( $i = 0; $i < 20000; $i++ ) {
 echo $name;
 
 query( "INSERT INTO text_test ( Name, Description )
-		VALUES ( '$name', '$random_paragraph' )" );
+        VALUES ( '$name', '$random_paragraph' )" );
 
 ?>

@@ -8,15 +8,15 @@ $XMAX = XMAX;
 $YMAX = YMAX;
 
 if (! $fp = fopen(MAPFILE, 'w')) {
-	throw new Exception('Could not open map file "' . MAPFILE . '"');
+    throw new Exception('Could not open map file "' . MAPFILE . '"');
 }
 
 $land_types = array(
-	'm' => 'mountain',
-	'w' => 'water',
-	'r' => 'road',
-	'h' => 'hill',
-	'g' => 'grass'
+    'm' => 'mountain',
+    'w' => 'water',
+    'r' => 'road',
+    'h' => 'hill',
+    'g' => 'grass'
 );
 
 $land_type_keys = array_keys($land_types);
@@ -27,12 +27,12 @@ $world_string = '';
 
 for ($i = 0; $i < $YMAX; ++$i) {
     //$row = '';
-	for ($j = 0; $j < $XMAX; ++$j) {
-		//fwrite($fp, $land_type_keys[mt_rand(0, $land_type_count - 1)]);
+    for ($j = 0; $j < $XMAX; ++$j) {
+        //fwrite($fp, $land_type_keys[mt_rand(0, $land_type_count - 1)]);
         //$row .= $land_type_keys[mt_rand(0, $land_type_count - 1)];
         $world_string .= $land_type_keys[mt_rand(0, $land_type_count - 1)];
-	}
-	//fwrite($fp, "\n");
+    }
+    //fwrite($fp, "\n");
     $world_string .= "\n";
 }
 

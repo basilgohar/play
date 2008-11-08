@@ -11,12 +11,12 @@ $times = 20000;
 $sql_string = 'INSERT INTO random ( `something`, `something_else`, `last_thing` ) VALUES ';
 
 for( $i = 0; $i < $times; ++$i ) {
-	$random1 = mt_rand();
-	$random2 = mt_rand();
-	$random3 = mt_rand();
-	
-//	query( "INSERT DELAYED INTO random ( `something`, `something_else`, `last_thing` ) VALUES ( '$random1', '$random2', '$random3' )" );
-	$sql_string .= "\n( '$random1', '$random2', '$random3' ),";
+    $random1 = mt_rand();
+    $random2 = mt_rand();
+    $random3 = mt_rand();
+    
+//    query( "INSERT DELAYED INTO random ( `something`, `something_else`, `last_thing` ) VALUES ( '$random1', '$random2', '$random3' )" );
+    $sql_string .= "\n( '$random1', '$random2', '$random3' ),";
 }
 query( substr( $sql_string, 0, -1 ) );
 

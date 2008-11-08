@@ -7,11 +7,11 @@ define('FILENAME', 'Waleed Basyouni - Conquer Your Fear - Khutbah - Raw - trimme
 $clip_difference = 60000;
 
 if (! file_exists(FILENAME)) {
-	throw new Exception('File ' . FILENAME . ' does not exist!');
+    throw new Exception('File ' . FILENAME . ' does not exist!');
 }
 
 if (! $file = file_get_contents(FILENAME)) {
-	throw new Exception('Could not load file ' . FILENAME);
+    throw new Exception('Could not load file ' . FILENAME);
 }
 
 $length = strlen($file);
@@ -46,9 +46,9 @@ while ($i < $length) {
     }
     
     ++$histogram[$current_sample];
-	*/
+    */
 
-	if (abs($last_sample - $current_sample) > $clip_difference) {
+    if (abs($last_sample - $current_sample) > $clip_difference) {
         if (false === $clipping) {
             $clipping = true;
             echo 'Possibly-clipped segment detected' . "\n";
@@ -66,7 +66,7 @@ while ($i < $length) {
                 echo 'Possibly-clipped segment concluded' . "\n";
             }
         }
-    }	
+    }    
     
     $last_sample = $current_sample;
     

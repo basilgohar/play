@@ -22,19 +22,19 @@ $table_headings->AddChild( $heading_2 );
 $table_headings->AddChild( $heading_3 );
 $table->AddChild( $table_headings );
 foreach( query( 'SELECT * FROM text_test' ) as $row ) {
-	$tr = new HTML( 'tr' );
-	foreach( $row as $name => $value ) {
-		$max_visible_length = 100;
-		$td = new HTML( 'td' );
-		$td->SetAttribute( 'style', 'vertical-align: top;' );
-		$display_string = substr( $value, 0, $max_visible_length );
-		if( strlen( $value ) > $max_visible_length ) {
-			$display_string .= '. . .';
-		}
-		$td->SetContent( $display_string );		
-		$tr->AddChild( $td );
-	}
-	$table->AddChild( $tr );
+    $tr = new HTML( 'tr' );
+    foreach( $row as $name => $value ) {
+        $max_visible_length = 100;
+        $td = new HTML( 'td' );
+        $td->SetAttribute( 'style', 'vertical-align: top;' );
+        $display_string = substr( $value, 0, $max_visible_length );
+        if( strlen( $value ) > $max_visible_length ) {
+            $display_string .= '. . .';
+        }
+        $td->SetContent( $display_string );        
+        $tr->AddChild( $td );
+    }
+    $table->AddChild( $tr );
 }
 echo $table->Display();
 

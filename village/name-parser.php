@@ -18,20 +18,20 @@ $db->query('TRUNCATE TABLE `Names`');
 $values_array = array();
 
 foreach ($types as $type => $filename) {
-	if (!$fp = fopen('data/' . $filename, 'r')) {
-		trigger_error('Could not open file ' . $filename, E_USER_WARNING);
-		continue;
-	}
+    if (!$fp = fopen('data/' . $filename, 'r')) {
+        trigger_error('Could not open file ' . $filename, E_USER_WARNING);
+        continue;
+    }
     
-  	while (($line = fgets($fp)) !== false) {
-		$normalized_line = preg_replace('/ +/', ' ', $line);
-		$values = explode(' ', $normalized_line);
-		$values_array[$type][] = $values[0];
-	}
+      while (($line = fgets($fp)) !== false) {
+        $normalized_line = preg_replace('/ +/', ' ', $line);
+        $values = explode(' ', $normalized_line);
+        $values_array[$type][] = $values[0];
+    }
 }
 
 foreach (array_keys($values_array) as $type) {
-	sort($values_array[$type]);
+    sort($values_array[$type]);
 }
 
 $sql = '';
@@ -61,25 +61,25 @@ $sql = '';
 $name_values_count = 0;
 
 foreach ($names as $type => $values) {
-	foreach ($values as $value) {
-		++$name_values_count;
-		if ('' === $sql) {
-			$sql = 'INSERT INTO `Names` (`value`,`type`) VALUES ';
-		}
-		$sql .= "('" . ucfirst(strtolower($value)) . "','$type'),";
-		if (strlen($sql) > $max_sql_string_length) {
-			$sql = substr($sql, 0, -1);
-			$db->query($sql);
-			$sql = '';
-		}
-	}
+    foreach ($values as $value) {
+        ++$name_values_count;
+        if ('' === $sql) {
+            $sql = 'INSERT INTO `Names` (`value`,`type`) VALUES ';
+        }
+        $sql .= "('" . ucfirst(strtolower($value)) . "','$type'),";
+        if (strlen($sql) > $max_sql_string_length) {
+            $sql = substr($sql, 0, -1);
+            $db->query($sql);
+            $sql = '';
+        }
+    }
 }
 
 if ('' !== $sql) {
-	//  Process the last remaining SQL statement
-	$sql = substr($sql, 0, -1);
-	$db->query($sql);
-	$sql = '';
+    //  Process the last remaining SQL statement
+    $sql = substr($sql, 0, -1);
+    $db->query($sql);
+    $sql = '';
 }
 
 $total_time = microtime(true) - $start_time;

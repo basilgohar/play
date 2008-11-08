@@ -9,7 +9,7 @@ $start_time = getmicrotime();
 
 $random_array = array();
 for( $i = 0; $i < 100000; $i++ ) {
-	$random_array[] = mt_rand();
+    $random_array[] = mt_rand();
 }
 //sort( $random_array );
 //debug( $random_array );

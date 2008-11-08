@@ -8,7 +8,7 @@ class db_table
         'ENGINE' => '',
         'COLLATE' => '',
         'COMMENT' => ''
-	);
+    );
     
     public function __construct($attributes = null)
     {

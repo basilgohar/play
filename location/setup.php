@@ -15,11 +15,11 @@ foreach ($celltypes as $celltype) {
 }
 
 for ($i = 0; $i < 255; $i++) {
-	$sql = "INSERT INTO `Integer` (`i`) VALUES ($i)";
-	$db->query($sql);
+    $sql = "INSERT INTO `Integer` (`i`) VALUES ($i)";
+    $db->query($sql);
 }
 
 for ($i = ord('a'); $i <= ord('z'); $i++) {
-	$sql = "INSERT INTO `Letter` (`l`) VALUES ('" . chr($i) . "')";
-	$db->query($sql);
+    $sql = "INSERT INTO `Letter` (`l`) VALUES ('" . chr($i) . "')";
+    $db->query($sql);
 }

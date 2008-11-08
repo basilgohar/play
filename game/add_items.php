@@ -11,10 +11,10 @@ $type_select = new HTML( 'select' );
 $type_select->SetAttribute( 'name', 'Type' );
 $types = query( 'SELECT * FROM Items WHERE Type=1' );
 foreach( $types as $type ) {
-	$option = new HTML( 'option' );
-	$option->SetAttribute( 'value', $type['Id'] );
-	$option->SetContent( $type['Id'].'. '.$type['Name'] );
-	$type_select->AddChild( $option );
+    $option = new HTML( 'option' );
+    $option->SetAttribute( 'value', $type['Id'] );
+    $option->SetContent( $type['Id'].'. '.$type['Name'] );
+    $type_select->AddChild( $option );
 }
 $form->AddChild( $type_select );
 $form->AddBr();
@@ -39,8 +39,8 @@ echo $form->Display();
 debug( $_POST );
 
 if( isset( $_POST['Type'] ) ) {
-	debug( Item::Add( $_POST['Type'], $_POST['Name'], $_POST['Description'] ) );
-	debug( mysql_error() );
+    debug( Item::Add( $_POST['Type'], $_POST['Name'], $_POST['Description'] ) );
+    debug( mysql_error() );
 }
 
 $sql_table = new SQL_Table( '*', 'Items' );

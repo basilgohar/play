@@ -11,7 +11,7 @@ $char1 = new Character( Character::GetRandomCharacterId() );
 $char2 = new Character( Character::GetRandomCharacterId() );
 
 while( $char1->GetAttribute( 'id' ) === $char2->GetAttribute( 'id' ) ) {
-	$char2 = new Character( Character::GetRandomCharacterId() );
+    $char2 = new Character( Character::GetRandomCharacterId() );
 }
 
 Character::CharacterBattle( $char1, $char2, true );
@@ -40,22 +40,22 @@ ob_flush();
 flush();
 
 while( $characters[$attacker]->GetAttribute( 'life' ) > 0 && $characters[$defender]->GetAttribute( 'life' ) > 0 ) {
-	$loop_counter++;
-	if( Character::SuccessfulAttack( $characters[$attacker]->AttackChance(), $characters[$defender]->DefendChance() ) ) {
-		$attack_strength = $characters[$attacker]->AttackStrength();
-		debug( $characters[$attacker]->GetAttribute( 'name' ).' attacks for '.$attack_strength.' points' );
-		ob_flush();
-		flush();
-		$characters[$defender]->SetAttribute( 'life', $characters[$defender]->GetAttribute( 'life' ) - $attack_strength );
-	}
-	else {
-//		debug( $characters[$defender]->GetAttribute( 'name' ).' successfully defends against '.$characters[$attacker]->GetAttribute( 'name' ).'\'s attack.' );
-	}
-		
-	//  This swaps the attacker with the defender
-	
-	$defender = 1 - $defender;
-	$attacker = 1 - $attacker;
+    $loop_counter++;
+    if( Character::SuccessfulAttack( $characters[$attacker]->AttackChance(), $characters[$defender]->DefendChance() ) ) {
+        $attack_strength = $characters[$attacker]->AttackStrength();
+        debug( $characters[$attacker]->GetAttribute( 'name' ).' attacks for '.$attack_strength.' points' );
+        ob_flush();
+        flush();
+        $characters[$defender]->SetAttribute( 'life', $characters[$defender]->GetAttribute( 'life' ) - $attack_strength );
+    }
+    else {
+//        debug( $characters[$defender]->GetAttribute( 'name' ).' successfully defends against '.$characters[$attacker]->GetAttribute( 'name' ).'\'s attack.' );
+    }
+        
+    //  This swaps the attacker with the defender
+    
+    $defender = 1 - $defender;
+    $attacker = 1 - $attacker;
 }
 
 query( 'UPDATE characters SET wins = wins + 1 WHERE id = '.$characters[$defender]->GetAttribute( 'id' ) );
@@ -74,7 +74,7 @@ header( 'Refresh: 0; URL=http://'.$_SERVER['HTTP_HOST'].'/game/character_battle.
 
 
 while( $char2['id'] == $char1['id'] ) {
-	$char2 = GetRandomCharacter();
+    $char2 = GetRandomCharacter();
 }
 
 echo 'Character 1';

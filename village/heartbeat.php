@@ -39,49 +39,49 @@ unset($people_ids);
 $random_people_data = $db->fetchAll("SELECT * FROM `People` WHERE `id` IN (" . implode(',', $random_people_ids) . ")");
 $people = new People();
 while (count($random_people_data) > 0) {
-	$person = new Person(array('data' => array_pop($random_people_data), 'table' => $people, 'stored' =>  true));
-	switch (mt_rand(1, 4)) {
-	    case VILLAGE_HEARTBEAT_MARRIAGE:
-	        'male' === $person->gender ? $spouse_gender = 'female' : $spouse_gender = 'male';
-	        if ($potential_spouse = $people->fetchRandomPersonEligableForMarriage($spouse_gender)) {
-		        if ($person->marryTo($potential_spouse)) {
+    $person = new Person(array('data' => array_pop($random_people_data), 'table' => $people, 'stored' =>  true));
+    switch (mt_rand(1, 4)) {
+        case VILLAGE_HEARTBEAT_MARRIAGE:
+            'male' === $person->gender ? $spouse_gender = 'female' : $spouse_gender = 'male';
+            if ($potential_spouse = $people->fetchRandomPersonEligableForMarriage($spouse_gender)) {
+                if ($person->marryTo($potential_spouse)) {
                             /*
-		            $body->appendChild($p = $doc->createElement('p', $person . ' has married ' . $potential_spouse));
-		            $p->setAttribute('class','marriage');
+                    $body->appendChild($p = $doc->createElement('p', $person . ' has married ' . $potential_spouse));
+                    $p->setAttribute('class','marriage');
                             */
-		        }
-	        }
-	        break;
-	    case VILLAGE_HEARTBEAT_CHILD_BIRTH:
-	        if ($child = $person->haveChild()) {
-	            /*
-	            $body->appendChild($p = $doc->createElement('p', $person . ' has given birth to ' . $child));
-	            $p->setAttribute('class','birth');
-	            */
-	        }
-	        break;
-	        /*
-	    case VILLAGE_HEARTBEAT_MURDER:
-	        if (count($random_people_data) > 0) {	            
-	            $victim = new Person(array('data' => array_pop($random_people_data), 'table' => $people, 'stored' => true));
-	            $victim->date_death = $current_date;
-	            $victim->save();
+                }
+            }
+            break;
+        case VILLAGE_HEARTBEAT_CHILD_BIRTH:
+            if ($child = $person->haveChild()) {
+                /*
+                $body->appendChild($p = $doc->createElement('p', $person . ' has given birth to ' . $child));
+                $p->setAttribute('class','birth');
+                */
+            }
+            break;
+            /*
+        case VILLAGE_HEARTBEAT_MURDER:
+            if (count($random_people_data) > 0) {                
+                $victim = new Person(array('data' => array_pop($random_people_data), 'table' => $people, 'stored' => true));
+                $victim->date_death = $current_date;
+                $victim->save();
 
-	            $body->appendChild($p = $doc->createElement('p', $person . ' has MURDERED ' . $victim));
-	            $p->setAttribute('class','murder');
+                $body->appendChild($p = $doc->createElement('p', $person . ' has MURDERED ' . $victim));
+                $p->setAttribute('class','murder');
 
-	        }
-	        break;
-	    case VILLAGE_HEARTBEAT_NATURAL_DEATH:
-	        $person->date_death = $current_date;
-	        $person->save();
-	        
-	        $body->appendChild($p = $doc->createElement('p', $person . ' has died of natural causes'));
-	        $p->setAttribute('class','death');
-	        
-	        break;
-	        */
-	}
+            }
+            break;
+        case VILLAGE_HEARTBEAT_NATURAL_DEATH:
+            $person->date_death = $current_date;
+            $person->save();
+            
+            $body->appendChild($p = $doc->createElement('p', $person . ' has died of natural causes'));
+            $p->setAttribute('class','death');
+            
+            break;
+            */
+    }
 }
 
 //$db->update('Info', array('value' => date('Y-m-d H:i:s', (strtotime($current_date) + 86400))), "`key` = 'current_date'");

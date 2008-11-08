@@ -15,7 +15,7 @@ mysql_select_db( 'test' );
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	mysql_query( $insert_query );
+    mysql_query( $insert_query );
 }
 
 $end_time = getmicrotime();
@@ -28,7 +28,7 @@ $insert_query = "INSERT INTO myisam ( name, description ) VALUES ( 'name', 'desc
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	mysql_query( $insert_query );
+    mysql_query( $insert_query );
 }
 $end_time = getmicrotime();
 $total_time = $end_time - $start_time;
@@ -40,7 +40,7 @@ $insert_query = "INSERT DELAYED INTO heap ( name, description ) VALUES ( 'name',
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	mysql_query( $insert_query );
+    mysql_query( $insert_query );
 }
 $end_time = getmicrotime();
 $total_time = $end_time - $start_time;
@@ -52,7 +52,7 @@ $insert_query = "INSERT DELAYED INTO myisam ( name, description ) VALUES ( 'name
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	mysql_query( $insert_query );
+    mysql_query( $insert_query );
 }
 $end_time = getmicrotime();
 $total_time = $end_time - $start_time;
@@ -64,7 +64,7 @@ $insert_query = "INSERT INTO heap ( name, description ) VALUES ( 'name', 'descri
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	query( $insert_query );
+    query( $insert_query );
 }
 $end_time = getmicrotime();
 $total_time = $end_time - $start_time;
@@ -76,7 +76,7 @@ $insert_query = "INSERT INTO myisam ( name, description ) VALUES ( 'name', 'desc
 
 $start_time = getmicrotime();
 for( $i = 0; $i < $insert_count; $i++ ) {
-	query( $insert_query );
+    query( $insert_query );
 }
 $end_time = getmicrotime();
 $total_time = $end_time - $start_time;

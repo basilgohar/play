@@ -41,13 +41,13 @@ while ($i < $village_population) {
     0 === mt_rand(0,3) ? $gender = 'male' : $gender = 'female';
     'male' === $gender ? $name_first = $names_male[mt_rand(0, $names_male_count - 1)] : $name_first = $names_female[mt_rand(0, $names_female_count - 1)];
     $name_last = $names_last[mt_rand(0, $names_last_count - 1)];
-	$person_array = array($name_first, $name_last, $now, 0, $gender);
-	if ('' === $sql) {
-		$sql = "INSERT INTO `People` (`name_first`,`name_last`,`date_birth`,`date_death`,`gender`) VALUES ";
-	}
-	$sql .= "('";
-	$sql .= implode("','", $person_array);
-	$sql .= "'),";
+    $person_array = array($name_first, $name_last, $now, 0, $gender);
+    if ('' === $sql) {
+        $sql = "INSERT INTO `People` (`name_first`,`name_last`,`date_birth`,`date_death`,`gender`) VALUES ";
+    }
+    $sql .= "('";
+    $sql .= implode("','", $person_array);
+    $sql .= "'),";
     if (isset($sql{$max_sql_string_length})) {
         $sql = substr($sql, 0, -1);
         $db->query($sql);
@@ -56,10 +56,10 @@ while ($i < $village_population) {
 }
 
 if ('' !== $sql) {
-	//  Process the last remaining SQL string
-	$sql = substr($sql, 0, -1);
-	$db->query($sql);	
-	$sql = '';
+    //  Process the last remaining SQL string
+    $sql = substr($sql, 0, -1);
+    $db->query($sql);    
+    $sql = '';
 }
 
 if (isset($pid)) {

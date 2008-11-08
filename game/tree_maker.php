@@ -11,11 +11,11 @@ $start_time = getmicrotime();
 $return_array = query( 'SELECT * FROM ItemsNodes' );
 
 function GetAllSuperParents() {
-	return query( 'SELECT ParentId FROM ItemsNodes WHERE ParentId NOT IN ( SELECT ChildId FROM ItemsNodes )' );
+    return query( 'SELECT ParentId FROM ItemsNodes WHERE ParentId NOT IN ( SELECT ChildId FROM ItemsNodes )' );
 }
 
 function FindChildrenRecursively( $ParentId = 0 ) {
-	
+    
 }
 
 debug( FindChildrenRecursively() );

@@ -10,7 +10,7 @@ define('INCREMENT_DIVISOR', 80);
 define('INCREMENT_UPDATE', COUNT/INCREMENT_DIVISOR);
 define('CONNECTOR', 'zend_db');
 if (file_exists('/dev/shm')) {
-	define('PATH', '/dev/shm');
+    define('PATH', '/dev/shm');
 }
 define('FILENAME', 'something');
 
@@ -31,12 +31,12 @@ switch (CONNECTOR) {
        mysql_query('TRUNCATE TABLE `md5`');
        break;
    case 'file':
-	if (defined('PATH')) {
-		$fp = fopen(PATH . PATH_SEPARATOR . FILENAME, 'w');
-	} else {
-		$fp = fopen(FILENAME, 'w');
-	}
-	break;
+    if (defined('PATH')) {
+        $fp = fopen(PATH . PATH_SEPARATOR . FILENAME, 'w');
+    } else {
+        $fp = fopen(FILENAME, 'w');
+    }
+    break;
 }
 
 $string = 'a';

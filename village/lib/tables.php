@@ -93,20 +93,20 @@ class People extends Zend_Db_Table_Abstract
     
     public function fetchPeopleEligableForMarriage($gender)
     {
-		switch ($gender) {
-			default:
-				throw new Exception('Invalid gender "' . $gender . '" specified.');
-				break;
-			case 'male':
-				$sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.husband_id = p.id WHERE p.gender = 'male' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_MALE;
-				break;
-			case 'female':
-				$sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_FEMALE;
-				break;
-		}
-		//$records = $this->getAdapter()->query($sub_sql)->fetchAll();
-		return $this->getAdapter()->query($sub_sql)->fetchAll(PDO::FETCH_COLUMN);
-		//return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
+        switch ($gender) {
+            default:
+                throw new Exception('Invalid gender "' . $gender . '" specified.');
+                break;
+            case 'male':
+                $sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.husband_id = p.id WHERE p.gender = 'male' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_MALE;
+                break;
+            case 'female':
+                $sub_sql = "SELECT p.id FROM `People` p LEFT JOIN `Marriages` m ON m.wife_id = p.id WHERE p.gender = 'female' GROUP BY p.id HAVING COUNT(m.id) < " . VILLAGE_SPOUSE_MAX_FEMALE;
+                break;
+        }
+        //$records = $this->getAdapter()->query($sub_sql)->fetchAll();
+        return $this->getAdapter()->query($sub_sql)->fetchAll(PDO::FETCH_COLUMN);
+        //return new Zend_Db_Table_Rowset(array('data' => $records, 'rowClass' => $this->_rowClass, 'table' => $this));
     }
     
     public function fetchOrderedRowset($limit = 1000, $offset = 0)

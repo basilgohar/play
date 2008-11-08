@@ -43,7 +43,7 @@ $db_tables = array (
         )
     ),
     'Integer' => array (
-	'columns' => array (
+    'columns' => array (
             'i' => 'integer'
         )
     ),
