@@ -1,0 +1,6 @@
+.buildpath
+.project
+.settings/
+config.php
+village/config.local.php
+
