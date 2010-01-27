@@ -6,18 +6,18 @@ error_reporting(E_ALL);
 
 $start_time = microtime(true);
 
-define('ZF_PATH', '/usr/share/zend-framework/library');
+define('ZF_PATH', '/usr/share/php');
 
 set_include_path(get_include_path() . PATH_SEPARATOR . ZF_PATH);
 
-define('CPUS', 1);
+require_once 'Loader/Autoloader.php';
 
 $CFG['db']['host'] = 'localhost';
 $CFG['db']['username'] = 'play';
 $CFG['db']['password'] = 'play';
 
-require_once 'Zend/Db.php';
-require_once 'Zend/Db/Table.php';
+require_once 'Db.php';
+require_once 'Db/Table.php';
 
 $db = Zend_Db::factory('PDO_MYSQL', $CFG['db']);
 Zend_Db_Table::setDefaultAdapter($db);
